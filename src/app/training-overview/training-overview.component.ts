@@ -10,7 +10,7 @@ import { SharedCommunicationService } from '../services/shared-communication.ser
 @Component({
   selector: 'training-overview',
   templateUrl: './training-overview.component.html',
-  styleUrls: ['./training-overview.component.scss']
+  // styleUrls: ['./training-overview.component.scss']
 })
 export class TrainingOverviewComponent implements OnInit {
   @Input()

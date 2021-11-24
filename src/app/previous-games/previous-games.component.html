@@ -1,5 +1,9 @@
-<div >Farvers betydning: <span class="bg-success">Grøn: Vinderhold</span> - <span class="bg-warning">Gul: Uafgjort</span> - <span class="bg-danger">Rød: Taberhold</span></div>
-<div>&nbsp;</div>
+<div>Farvers betydning:
+  <span class="bg-success">Grøn: Vinderhold</span> -
+  <span class="bg-warning">Gul: Uafgjort</span> -
+  <span class="bg-danger">Rød: Taberhold</span>
+</div>
+<!-- 
 <tabset>
   <tab heading='Time' (select)="showGamesForPeriod('hour')"></tab>
   <tab heading='Døgn' (select)="showGamesForPeriod('day')"></tab>
@@ -10,7 +14,43 @@
 <alert *ngFor="let alert of noGamesAlerts;let i = index" [type]="alert.type">
   {{ alert?.msg }}
 </alert>
+before
+
+<div class="grid-container">
+  <div class="header">Kamp-id</div>
+  <div class="header">Tidspunkt</div>
+  <div class="header">Vinder</div>
+  <div class="header">(Uafgjort)</div>
+  <div class="header">Taber</div>
+  <span gameResult *ngFor="let game of games; let i = index" [result]=game></span>
+  <!-- <game-result >{{i}}</game-result> -->-->
+<!-- </div>
+after  -->
 <div>
+  <!-- <div class="prevGames">
+
+    <div class="gamescolumn">
+      <b class="gamesheader" style="text-align: center">Kamp-id</b>
+      <div class="gamesrow" *ngFor="let game of games; let i = index">{{game.id}}</div>
+    </div>
+
+    <div class="gamescolumn">
+      <b class="gamesheader">Tidspunkt</b>
+      <div class="gamesrow" *ngFor="let game of games; let i = index">{{game.lastUpdated}}</div>
+    </div>
+    <div class="gamescolumn" style="flex-grow: 1">
+      <b class="gamesheader">Vinder</b>
+      <div class="gamesrow" *ngFor="let game of games; let i = index"></div>
+    </div>
+    <div class="gamescolumn" style="flex-grow: 1">
+      <b class="gamesheader">(Uafgjort)</b>
+      <div class="gamesrow" *ngFor="let game of games; let i = index"></div>
+    </div>
+    <div class="gamescolumn" style="flex-grow: 1">
+      <b class="gamesheader">Taber</b>
+      <div class="gamesrow" *ngFor="let game of games; let i = index"></div>
+    </div>
+  </div> -->
   <table class="table table-striped table-bordered table-condensed">
     <thead>
       <tr>
@@ -27,18 +67,72 @@
         <td>{{game.lastUpdated}} </td>
 
         <td *ngIf="game.match_winner == 'draw'" align="center"></td>
-        <td *ngIf="game.match_winner == 'draw'" align="left" class="warning"><img [class.selectedPersonBorder]="playerForStatistics== game.player_red_1"  [src]=getImageUrl(game.player_red_1) (click)="changePlayerForStatistics(game.player_red_1);"  onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> <img *ngIf="game.player_red_2 != 'null'" [class.selectedPersonBorder]="playerForStatistics== game.player_red_2"  [src]=getImageUrl(game.player_red_2) (click)="changePlayerForStatistics(game.player_red_2);"  onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> {{game.player_red_1}} <span *ngIf="game.player_red_2 != 'null'">og {{game.player_red_2}}</span><br><img [class.selectedPersonBorder]="playerForStatistics== game.player_blue_1"  [src]=getImageUrl(game.player_blue_1) (click)="changePlayerForStatistics(game.player_blue_1);"  onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> <img  *ngIf="game.player_blue_2 != 'null'" [class.selectedPersonBorder]="playerForStatistics== game.player_blue_2"  [src]=getImageUrl(game.player_blue_2) (click)="changePlayerForStatistics(game.player_blue_2);"  onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> {{game.player_blue_1}} <span *ngIf="game.player_blue_2 != 'null'">og {{game.player_blue_2}}</span></td>
+        <td *ngIf="game.match_winner == 'draw'" align="left" class="warning">
+          <img [class.selectedPersonBorder]="playerForStatistics== game.player_red_1"
+            [src]=getImageUrl(game.player_red_1) (click)="changePlayerForStatistics(game.player_red_1);"
+            onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30">
+          <img *ngIf="game.player_red_2 != 'null'"
+            [class.selectedPersonBorder]="playerForStatistics== game.player_red_2" [src]=getImageUrl(game.player_red_2)
+            (click)="changePlayerForStatistics(game.player_red_2);" onError="this.src = 'assets/img/Wildcard.jpg'"
+            width="24" height="30"> {{game.player_red_1}}
+          <span *ngIf="game.player_red_2 != 'null'">og {{game.player_red_2}}</span>
+          <br>
+          <img [class.selectedPersonBorder]="playerForStatistics== game.player_blue_1"
+            [src]=getImageUrl(game.player_blue_1) (click)="changePlayerForStatistics(game.player_blue_1);"
+            onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30">
+          <img *ngIf="game.player_blue_2 != 'null'"
+            [class.selectedPersonBorder]="playerForStatistics== game.player_blue_2"
+            [src]=getImageUrl(game.player_blue_2) (click)="changePlayerForStatistics(game.player_blue_2);"
+            onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> {{game.player_blue_1}}
+          <span *ngIf="game.player_blue_2 != 'null'">og {{game.player_blue_2}}</span>
+        </td>
         <td *ngIf="game.match_winner == 'draw'" align="center"></td>
 
 
-        <td *ngIf="game.match_winner == 'red'" align="left" class="success"><img [class.selectedPersonBorder]="playerForStatistics== game.player_red_1"  [src]=getImageUrl(game.player_red_1) (click)="changePlayerForStatistics(game.player_red_1);"  onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> <img  *ngIf="game.player_red_2 != 'null'" [class.selectedPersonBorder]="playerForStatistics== game.player_red_2"  [src]=getImageUrl(game.player_red_2) (click)="changePlayerForStatistics(game.player_red_2);"  onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> {{game.player_red_1}} <span *ngIf="game.player_red_2 != 'null'">og {{game.player_red_2}}</span> (<strong>+{{game.points_at_stake}}</strong> point)</td>
+        <td *ngIf="game.match_winner == 'red'" align="left" class="success">
+          <img [class.selectedPersonBorder]="playerForStatistics== game.player_red_1"
+            [src]=getImageUrl(game.player_red_1) (click)="changePlayerForStatistics(game.player_red_1);"
+            onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30">
+          <img *ngIf="game.player_red_2 != 'null'"
+            [class.selectedPersonBorder]="playerForStatistics== game.player_red_2" [src]=getImageUrl(game.player_red_2)
+            (click)="changePlayerForStatistics(game.player_red_2);" onError="this.src = 'assets/img/Wildcard.jpg'"
+            width="24" height="30"> {{game.player_red_1}}
+          <span *ngIf="game.player_red_2 != 'null'">og {{game.player_red_2}}</span> (
+          <strong>+{{game.points_at_stake}}</strong> point)</td>
         <td *ngIf="game.match_winner == 'red'" align="center"></td>
-        <td *ngIf="game.match_winner == 'red'" align="left" class="danger"><img [class.selectedPersonBorder]="playerForStatistics== game.player_blue_1"  [src]=getImageUrl(game.player_blue_1) (click)="changePlayerForStatistics(game.player_blue_1);"  onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> <img  *ngIf="game.player_blue_2 != 'null'" [class.selectedPersonBorder]="playerForStatistics== game.player_blue_2"  [src]=getImageUrl(game.player_blue_2) (click)="changePlayerForStatistics(game.player_blue_2);"   onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> {{game.player_blue_1}} <span *ngIf="game.player_blue_2 != 'null'">og {{game.player_blue_2}}</span>  (<strong>-{{game.points_at_stake}}</strong> point)</td>
+        <td *ngIf="game.match_winner == 'red'" align="left" class="danger">
+          <img [class.selectedPersonBorder]="playerForStatistics== game.player_blue_1"
+            [src]=getImageUrl(game.player_blue_1) (click)="changePlayerForStatistics(game.player_blue_1);"
+            onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30">
+          <img *ngIf="game.player_blue_2 != 'null'"
+            [class.selectedPersonBorder]="playerForStatistics== game.player_blue_2"
+            [src]=getImageUrl(game.player_blue_2) (click)="changePlayerForStatistics(game.player_blue_2);"
+            onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> {{game.player_blue_1}}
+          <span *ngIf="game.player_blue_2 != 'null'">og {{game.player_blue_2}}</span> (
+          <strong>-{{game.points_at_stake}}</strong> point)</td>
 
 
-        <td *ngIf="game.match_winner == 'blue'" align="left" class="success"><img [class.selectedPersonBorder]="playerForStatistics== game.player_blue_1"  [src]=getImageUrl(game.player_blue_1) (click)="changePlayerForStatistics(game.player_blue_1);"  onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> <img  *ngIf="game.player_blue_2 != 'null'" [class.selectedPersonBorder]="playerForStatistics== game.player_blue_2"  [src]=getImageUrl(game.player_blue_2) (click)="changePlayerForStatistics(game.player_blue_2);"  onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> {{game.player_blue_1}} <span *ngIf="game.player_blue_2 != 'null'">og {{game.player_blue_2}}</span> (<strong>+{{game.points_at_stake}}</strong> point)</td>
+        <td *ngIf="game.match_winner == 'blue'" align="left" class="success">
+          <img [class.selectedPersonBorder]="playerForStatistics== game.player_blue_1"
+            [src]=getImageUrl(game.player_blue_1) (click)="changePlayerForStatistics(game.player_blue_1);"
+            onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30">
+          <img *ngIf="game.player_blue_2 != 'null'"
+            [class.selectedPersonBorder]="playerForStatistics== game.player_blue_2"
+            [src]=getImageUrl(game.player_blue_2) (click)="changePlayerForStatistics(game.player_blue_2);"
+            onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> {{game.player_blue_1}}
+          <span *ngIf="game.player_blue_2 != 'null'">og {{game.player_blue_2}}</span> (
+          <strong>+{{game.points_at_stake}}</strong> point)</td>
         <td *ngIf="game.match_winner == 'blue'" align="center"></td>
-        <td *ngIf="game.match_winner == 'blue'" align="left" class="danger"><img [class.selectedPersonBorder]="playerForStatistics== game.player_red_1"  [src]=getImageUrl(game.player_red_1) (click)="changePlayerForStatistics(game.player_red_1);"  onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> <img  *ngIf="game.player_red_2 != 'null'" [class.selectedPersonBorder]="playerForStatistics== game.player_red_2"  [src]=getImageUrl(game.player_red_2) (click)="changePlayerForStatistics(game.player_red_2);"   onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30"> {{game.player_red_1}} <span *ngIf="game.player_red_2 != 'null'">og {{game.player_red_2}}</span> (<strong>-{{game.points_at_stake}}</strong> point)</td>
+        <td *ngIf="game.match_winner == 'blue'" align="left" class="danger">
+          <img [class.selectedPersonBorder]="playerForStatistics== game.player_red_1"
+            [src]=getImageUrl(game.player_red_1) (click)="changePlayerForStatistics(game.player_red_1);"
+            onError="this.src = 'assets/img/Wildcard.jpg'" width="24" height="30">
+          <img *ngIf="game.player_red_2 != 'null'"
+            [class.selectedPersonBorder]="playerForStatistics== game.player_red_2" [src]=getImageUrl(game.player_red_2)
+            (click)="changePlayerForStatistics(game.player_red_2);" onError="this.src = 'assets/img/Wildcard.jpg'"
+            width="24" height="30"> {{game.player_red_1}}
+          <span *ngIf="game.player_red_2 != 'null'">og {{game.player_red_2}}</span> (
+          <strong>-{{game.points_at_stake}}</strong> point)</td>
 
       </tr>
 
