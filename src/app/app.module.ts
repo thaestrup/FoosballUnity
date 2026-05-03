@@ -20,6 +20,7 @@ import { ProgressbarModule } from 'ngx-bootstrap';
 
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { TrainingOverviewComponent } from './training-overview/training-overview.component';
+import { GameResultComponent } from './game-result/game-result.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { TrainingOverviewComponent } from './training-overview/training-overview
     FixedRankingListComponent,
     GamesOverviewComponent,
     TrainingOverviewComponent,
-    RfidRegistrationComponent
+    RfidRegistrationComponent,
+    GameResultComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,52 @@
+.prevGames {
+  display: grid;
+  grid-template-columns: 100px 400px auto auto auto;
+
+
+  .gamescolumn {
+    display: flex;
+    justify-self: center;
+    flex-direction: column;
+    justify-content: space-between;
+
+    div {
+      border-bottom: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+    }
+  }
+
+  .gamesrow {
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 2px;
+    padding-right: 4px;
+    padding-left: 4px;
+    display: flex;
+
+    div {
+      padding: 2px;
+      padding-right: 4px;
+      padding-left: 4px;
+      background-color: aqua;
+    }
+  }
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto 1fr 1fr 1fr;
+
+  game-result {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+  }
+
+  div {
+    text-align: center;
+    border: 1px solid #ddd;
+
+  }
+
+}

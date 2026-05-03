@@ -13,7 +13,7 @@ import { SharedCommunicationService } from '../services/shared-communication.ser
 @Component({
   selector: 'rfid-registration',
   templateUrl: './rfid-registration.component.html',
-  styleUrls: ['./rfid-registration.component.scss']
+  // styleUrls: ['./rfid-registration.component.scss']
 })
 export class RfidRegistrationComponent implements OnInit {
 
