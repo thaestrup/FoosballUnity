@@ -1,7 +1,7 @@
 FoosballUnity
 =============
 
-Frontend (Angular 5 / CLI 1.5) for the foosball / table soccer tournament organizer. This repo also hosts the `docker-compose.yml` that orchestrates the full stack (frontend + backend + database).
+Frontend (React 19 + TypeScript + Vite) for the foosball / table soccer tournament organizer. This repo also hosts the `docker-compose.yml` that orchestrates the full stack (frontend + backend + database).
 
 The backend lives in a sibling repo:
 
@@ -91,30 +91,39 @@ Notes
 - The MariaDB image only auto-creates `MARIADB_USER` when a password is also set, so `../TableSoccerREST/db-init/00-create-user.sql` creates the user with empty password before the schema loads. Init scripts only run on a fresh data volume.
 - `../TableSoccerREST/Dockerfile` builds the backend as a standalone image (`podman build -t backend ../TableSoccerREST/`). It assumes a MariaDB is reachable at `localhost:3306` — compose handles that, but if running the image on its own you need to provide one.
 
----
+Local development (without Docker)
+----------------------------------
 
-Below: original Angular CLI 1.0 boilerplate from when the project was scaffolded.
+If you'd rather run Vite directly against a backend that's already up:
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```
+npm install
+npm run dev               # Vite dev server on http://localhost:4200
+```
 
-## Code scaffolding
+Useful scripts:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
+| Script                 | What it does                                                                |
+|------------------------|-----------------------------------------------------------------------------|
+| `npm run dev`          | Vite dev server with HMR                                                    |
+| `npm run build`        | `tsc -b` then `vite build` → `dist/`                                        |
+| `npm run preview`      | Serve the built `dist/` locally for a smoke test                            |
+| `npm run lint`         | ESLint over `src/`                                                          |
+| `npm run test`         | Vitest in watch mode                                                        |
+| `npm run test:run`     | Vitest single-pass (TZ pinned to UTC for deterministic snapshots)           |
+| `npm run test:contract`| Run contract tests against a live backend (set `VITE_BACKEND_URL` first)    |
+| `npm run format`       | Prettier write                                                              |
 
-## Build
+`npm run dev` reads `VITE_BACKEND_URL` from `.env` (default `http://localhost:5050`); the production build bakes it in.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Stack
+-----
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- React 19 + TypeScript (strict)
+- Vite 7 build / dev server
+- TanStack Router (file-based) + TanStack Query
+- React Hook Form + Zod for forms and schema-at-the-edge runtime parsing
+- Recharts for the rankings chart
+- Vitest + Testing Library + MSW for unit, integration, snapshot, and contract tests
+- ESLint + Prettier
+- GitHub Actions CI runs type-check / lint / test / build on every push (see `.github/workflows/ci.yml`)
