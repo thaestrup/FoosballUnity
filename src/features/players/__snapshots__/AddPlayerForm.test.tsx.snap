@@ -1,0 +1,28 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AddPlayerForm — snapshot > matches snapshot with default render 1`] = `
+<form
+  class="form"
+  novalidate=""
+>
+  <input
+    aria-invalid="false"
+    class="input"
+    name="name"
+    placeholder="Player name"
+    type="text"
+  />
+  <button
+    class="submit"
+    type="submit"
+  >
+    Add
+  </button>
+  <button
+    class="cancel"
+    type="button"
+  >
+    Cancel
+  </button>
+</form>
+`;

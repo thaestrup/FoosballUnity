@@ -1,0 +1,223 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`RankingsList — snapshot > matches snapshot when empty 1`] = `
+<div
+  class="wrapper"
+>
+  <div
+    class="tabs"
+  >
+    <button
+      class="tab "
+      type="button"
+    >
+      Last hour
+    </button>
+    <button
+      class="tab "
+      type="button"
+    >
+      Today
+    </button>
+    <button
+      class="tab "
+      type="button"
+    >
+      This week
+    </button>
+    <button
+      class="tab "
+      type="button"
+    >
+      This month
+    </button>
+    <button
+      aria-current="true"
+      class="tab active"
+      type="button"
+    >
+      All time
+    </button>
+  </div>
+  <p
+    class="muted"
+  >
+    No ranked players in this period. Played games will appear here.
+  </p>
+  <section
+    class="chartWrap"
+  >
+    <h3
+      class="chartTitle"
+    >
+      Points over time — 
+      2
+       ready player
+      s
+    </h3>
+    <div
+      class="recharts-responsive-container"
+      style="width: 100%; height: 280px; min-width: 0;"
+    />
+  </section>
+</div>
+`;
+
+exports[`RankingsList — snapshot > matches snapshot with three players (chart + list) 1`] = `
+<div
+  class="wrapper"
+>
+  <div
+    class="tabs"
+  >
+    <button
+      class="tab "
+      type="button"
+    >
+      Last hour
+    </button>
+    <button
+      class="tab "
+      type="button"
+    >
+      Today
+    </button>
+    <button
+      class="tab "
+      type="button"
+    >
+      This week
+    </button>
+    <button
+      class="tab "
+      type="button"
+    >
+      This month
+    </button>
+    <button
+      aria-current="true"
+      class="tab active"
+      type="button"
+    >
+      All time
+    </button>
+  </div>
+  <p
+    class="muted"
+  >
+    Select players on the Players page to see their points over time.
+  </p>
+  <ol
+    class="list"
+  >
+    <li>
+      <a
+        class="row"
+        href="/player/Lars"
+      >
+        <span
+          class="position gold"
+        >
+          1
+        </span>
+        <img
+          alt=""
+          class="avatar"
+          decoding="async"
+          loading="lazy"
+          src="/img/lars.jpg"
+        />
+        <span
+          class="name"
+        >
+          Lars
+        </span>
+        <span
+          class="points"
+        >
+          1530
+        </span>
+        <span
+          class="games"
+        >
+          12
+           game
+          s
+        </span>
+      </a>
+    </li>
+    <li>
+      <a
+        class="row"
+        href="/player/Joan"
+      >
+        <span
+          class="position silver"
+        >
+          2
+        </span>
+        <img
+          alt=""
+          class="avatar"
+          decoding="async"
+          loading="lazy"
+          src="/img/joan.jpg"
+        />
+        <span
+          class="name"
+        >
+          Joan
+        </span>
+        <span
+          class="points"
+        >
+          1510
+        </span>
+        <span
+          class="games"
+        >
+          9
+           game
+          s
+        </span>
+      </a>
+    </li>
+    <li>
+      <a
+        class="row"
+        href="/player/Frank"
+      >
+        <span
+          class="position bronze"
+        >
+          3
+        </span>
+        <img
+          alt=""
+          class="avatar"
+          decoding="async"
+          loading="lazy"
+          src="/img/frank.jpg"
+        />
+        <span
+          class="name"
+        >
+          Frank
+        </span>
+        <span
+          class="points"
+        >
+          1490
+        </span>
+        <span
+          class="games"
+        >
+          7
+           game
+          s
+        </span>
+      </a>
+    </li>
+  </ol>
+</div>
+`;

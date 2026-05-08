@@ -1,0 +1,77 @@
+import { createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router'
+import type { QueryClient } from '@tanstack/react-query'
+import { useTheme } from '@/lib/useTheme'
+import { SelectedFacepile } from '@/features/players/SelectedFacepile'
+import { HeaderTimer } from '@/features/timer/HeaderTimer'
+import { playersQuery } from '@/features/players/usePlayers'
+import styles from './__root.module.css'
+
+const RootComponent = () => {
+  const [theme, , toggle] = useTheme()
+
+  return (
+    <div className={styles.shell}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>FoosballUnity</h1>
+        <nav className={styles.nav}>
+          <Link to="/" className={styles.link} activeProps={{ className: styles.active }}>
+            Home
+          </Link>
+          <Link
+            to="/players"
+            className={styles.link}
+            activeProps={{ className: styles.active }}
+          >
+            Players
+          </Link>
+          <Link
+            to="/games"
+            className={styles.link}
+            activeProps={{ className: styles.active }}
+          >
+            Games
+          </Link>
+          <Link
+            to="/rankings"
+            className={styles.link}
+            activeProps={{ className: styles.active }}
+          >
+            Rankings
+          </Link>
+          <Link
+            to="/tournament"
+            className={styles.link}
+            activeProps={{ className: styles.active }}
+          >
+            Tournament
+          </Link>
+        </nav>
+        <HeaderTimer />
+        <SelectedFacepile />
+        <button
+          type="button"
+          className={styles.themeToggle}
+          onClick={toggle}
+          aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+        >
+          {theme === 'dark' ? '☀' : '☾'}
+        </button>
+      </header>
+      <main className={styles.main}>
+        <Outlet />
+      </main>
+    </div>
+  )
+}
+
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(playersQuery),
+  component: RootComponent,
+  pendingComponent: () => <p className={styles.pending}>Loading…</p>,
+  errorComponent: ({ error }) => (
+    <p role="alert" className={styles.error}>
+      Something went wrong: {error.message}
+    </p>
+  ),
+})

@@ -1,0 +1,183 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tournament — empty state > matches snapshot when no rounds have been generated 1`] = `
+<div
+  class="layout"
+>
+  <main
+    class="main"
+  >
+    <p
+      class="muted"
+    >
+      Use the controls to generate a set of pairings. Make sure the players you want to include are marked ready on
+       
+      <a
+        class="link"
+        href="/players"
+      >
+        the players page
+      </a>
+      .
+    </p>
+  </main>
+  <aside
+    class="sidebar"
+  >
+    <section
+      class="timerSection"
+    >
+      <h3
+        class="sectionTitle"
+      >
+        Match timer
+      </h3>
+      <p
+        class="muted"
+      >
+        Loading timer…
+      </p>
+    </section>
+    <details
+      class="accordion"
+    >
+      <summary
+        class="summary"
+      >
+        Tournament options
+      </summary>
+      <div
+        class="accordionBody"
+      >
+        <label
+          class="field"
+        >
+          <span>
+            Algorithm
+          </span>
+          <select
+            class="select"
+          >
+            <option
+              value="randomTournament"
+            >
+              Random
+            </option>
+            <option
+              value="lastFirstTournament"
+            >
+              Last-first
+            </option>
+            <option
+              value="awesomeAlgorithmTournament"
+            >
+              Awesome
+            </option>
+          </select>
+        </label>
+        <label
+          class="field"
+        >
+          <span>
+            Boards
+          </span>
+          <input
+            class="numberInput"
+            max="20"
+            min="1"
+            type="number"
+            value="1"
+          />
+        </label>
+        <label
+          class="checkbox"
+        >
+          <input
+            type="checkbox"
+          />
+          Allow uneven teams (solo)
+        </label>
+      </div>
+    </details>
+    <p
+      class="warn"
+    >
+      Need at least 
+      4
+       ready players.
+       
+      <a
+        class="link"
+        href="/players"
+      >
+        Mark more
+      </a>
+    </p>
+    <button
+      class="generate"
+      disabled=""
+      type="button"
+    >
+      Generate
+    </button>
+    <details
+      class="accordion"
+      open=""
+    >
+      <summary
+        class="summary"
+      >
+        Rankings
+      </summary>
+      <div
+        class="accordionBody"
+      >
+        <div
+          class="wrapper"
+        >
+          <div
+            class="tabs short"
+          >
+            <button
+              class="tab "
+              type="button"
+            >
+              Hr
+            </button>
+            <button
+              class="tab "
+              type="button"
+            >
+              Day
+            </button>
+            <button
+              class="tab "
+              type="button"
+            >
+              Wk
+            </button>
+            <button
+              class="tab "
+              type="button"
+            >
+              Mo
+            </button>
+            <button
+              aria-current="true"
+              class="tab active"
+              type="button"
+            >
+              All
+            </button>
+          </div>
+          <p
+            class="muted"
+          >
+            Loading…
+          </p>
+        </div>
+      </div>
+    </details>
+  </aside>
+</div>
+`;

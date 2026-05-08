@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HeaderTimer — snapshot > matches snapshot when running with > 60s remaining 1`] = `
+<a
+  class="link normal"
+  href="/tournament"
+  title="Match timer — tap for details"
+>
+  <span
+    aria-hidden="true"
+    class="dot"
+  />
+  <span
+    class="time"
+  >
+    M:SS
+  </span>
+</a>
+`;
+
+exports[`HeaderTimer — snapshot > matches snapshot when started=false (renders nothing) 1`] = `null`;

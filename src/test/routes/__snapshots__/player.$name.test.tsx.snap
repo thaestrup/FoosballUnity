@@ -1,0 +1,249 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`route /player/$name (PlayerDetail) snapshot > matches snapshot for a player with two stable games (no Recharts internals) 1`] = `
+<article
+  class="wrapper"
+>
+  <header
+    class="header"
+  >
+    <img
+      alt=""
+      class="avatar"
+      decoding="async"
+      loading="lazy"
+      src="/img/lars.jpg"
+    />
+    <div
+      class="titleBlock"
+    >
+      <h2
+        class="name"
+      >
+        Lars
+      </h2>
+      <a
+        class="backLink"
+        href="/players"
+      >
+        ← All players
+      </a>
+    </div>
+  </header>
+  <div
+    class="stats"
+  >
+    <div
+      class="statCard "
+    >
+      <span
+        class="statValue"
+      >
+        2
+      </span>
+      <span
+        class="statLabel"
+      >
+        games
+      </span>
+    </div>
+    <div
+      class="statCard tone_win"
+    >
+      <span
+        class="statValue"
+      >
+        1
+      </span>
+      <span
+        class="statLabel"
+      >
+        won
+      </span>
+    </div>
+    <div
+      class="statCard tone_loss"
+    >
+      <span
+        class="statValue"
+      >
+        1
+      </span>
+      <span
+        class="statLabel"
+      >
+        lost
+      </span>
+    </div>
+    <div
+      class="statCard tone_tie"
+    >
+      <span
+        class="statValue"
+      >
+        0
+      </span>
+      <span
+        class="statLabel"
+      >
+        drew
+      </span>
+    </div>
+    <div
+      class="statCard "
+    >
+      <span
+        class="statValue"
+      >
+        50%
+      </span>
+      <span
+        class="statLabel"
+      >
+        win rate
+      </span>
+    </div>
+  </div>
+  <section
+    class="chartSection"
+  >
+    <header
+      class="chartHead"
+    >
+      <h3
+        class="subhead"
+      >
+        Points over time
+      </h3>
+      <div
+        class="tabs"
+      >
+        <button
+          class="tab "
+          type="button"
+        >
+          Last hour
+        </button>
+        <button
+          class="tab "
+          type="button"
+        >
+          Today
+        </button>
+        <button
+          class="tab "
+          type="button"
+        >
+          This week
+        </button>
+        <button
+          class="tab "
+          type="button"
+        >
+          This month
+        </button>
+        <button
+          aria-current="true"
+          class="tab active"
+          type="button"
+        >
+          All time
+        </button>
+      </div>
+    </header>
+    <div
+      class="recharts-responsive-container"
+      style="width: 100%; height: 220px; min-width: 0;"
+    >
+      <!-- recharts -->
+    </div>
+  </section>
+  <h3
+    class="subhead"
+  >
+    Recent games
+  </h3>
+  <ol
+    class="gamesList"
+  >
+    <li>
+      <article
+        class="gameRow row_win"
+      >
+        <span
+          class="gameId"
+        >
+          #
+          1
+        </span>
+        <time
+          class="gameTime"
+        >
+          STABLE_TIMESTAMP
+        </time>
+        <span
+          class="partner"
+        >
+          w/ Joan
+        </span>
+        <span
+          class="opponents"
+        >
+          vs 
+          Frank & Daniel
+        </span>
+        <span
+          class="outcome"
+        >
+          Won
+        </span>
+        <span
+          class="gamePoints"
+        >
+          25
+           pts
+        </span>
+      </article>
+    </li>
+    <li>
+      <article
+        class="gameRow row_loss"
+      >
+        <span
+          class="gameId"
+        >
+          #
+          2
+        </span>
+        <time
+          class="gameTime"
+        >
+          STABLE_TIMESTAMP
+        </time>
+        <span
+          class="partner"
+        >
+          w/ Joan
+        </span>
+        <span
+          class="opponents"
+        >
+          vs 
+          Frank & Daniel
+        </span>
+        <span
+          class="outcome"
+        >
+          Lost
+        </span>
+        <span
+          class="gamePoints"
+        >
+          10
+           pts
+        </span>
+      </article>
+    </li>
+  </ol>
+</article>
+`;

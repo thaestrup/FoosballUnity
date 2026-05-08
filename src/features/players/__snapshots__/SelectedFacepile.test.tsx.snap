@@ -1,0 +1,36 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SelectedFacepile — snapshot > matches snapshot with two selected players 1`] = `
+<a
+  aria-label="2 players ready"
+  class="link"
+  href="/players"
+  title="2 players ready"
+>
+  <span
+    aria-hidden="true"
+    class="facepile"
+  >
+    <img
+      alt=""
+      class="face"
+      decoding="async"
+      loading="lazy"
+      src="/img/lars.jpg"
+    />
+    <img
+      alt=""
+      class="face"
+      decoding="async"
+      loading="lazy"
+      src="/img/joan.jpg"
+    />
+  </span>
+  <span
+    class="count "
+  >
+    2
+     ready
+  </span>
+</a>
+`;

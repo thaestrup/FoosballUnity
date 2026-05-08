@@ -1,5 +1,0 @@
-<alert *ngFor="let alert of registeredPlayerAlerts;let i = index" [type]="alert.type" [dismissOnTimeout]="alert.duration">
-  <h1 align="center" class="alert-heading">{{alert.header}}</h1>
-  <p align="center"><img  src="{{alert.image}}" width="200" onError="this.src = 'assets/img/Wildcard.jpg'"></p>
-  <p align="center">(RFID: {{alert.rfid}} )</p>
-</alert>

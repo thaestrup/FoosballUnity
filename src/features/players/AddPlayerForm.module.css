@@ -1,0 +1,87 @@
+.openButton {
+  align-self: flex-start;
+  font: inherit;
+  padding: 0.4rem 0.85rem;
+  background: var(--bg-card);
+  border: 1px dashed var(--border-strong);
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.openButton:hover {
+  background: var(--bg-soft);
+  color: var(--text);
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.input {
+  font: inherit;
+  padding: 0.45rem 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+}
+
+.input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--error);
+}
+
+.submit,
+.cancel {
+  font: inherit;
+  padding: 0.45rem 0.85rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.submit {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancel {
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+.cancel:hover:not(:disabled) {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.error {
+  grid-column: 1 / -1;
+  font-size: 0.8125rem;
+  color: var(--error);
+}

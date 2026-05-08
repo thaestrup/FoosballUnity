@@ -1,0 +1,444 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ActiveBoards — snapshots > matches snapshot for a board with a fully-empty side 1`] = `
+<div
+  class="boards"
+>
+  <article
+    class="board "
+  >
+    <div
+      class="match"
+    >
+      <div
+        class="team "
+        style="border-left: 4px solid rgb(46, 125, 50);"
+      >
+        <span
+          class="empty"
+        >
+          No players
+        </span>
+      </div>
+      <div
+        class="imageWrap"
+      >
+        <img
+          alt=""
+          class="tableImage"
+          src="/img/fussball-table-nummer-1.png"
+        />
+        <span
+          class="tableLabelOverlay"
+        >
+          T1
+        </span>
+      </div>
+      <div
+        class="team "
+        style="border-left: 4px solid rgb(208, 74, 74);"
+      >
+        <div
+          class="players"
+        >
+          <div
+            class="playerSlot"
+          >
+            <img
+              alt=""
+              class="avatar"
+              decoding="async"
+              loading="lazy"
+              src="/img/c.jpg"
+            />
+            <span
+              class="playerName"
+            >
+              C
+            </span>
+            <span
+              class="playerRank"
+            >
+              unranked
+            </span>
+          </div>
+          <div
+            class="playerSlot"
+          >
+            <img
+              alt=""
+              class="avatar"
+              decoding="async"
+              loading="lazy"
+              src="/img/d.jpg"
+            />
+            <span
+              class="playerName"
+            >
+              D
+            </span>
+            <span
+              class="playerRank"
+            >
+              unranked
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p
+      class="note"
+    >
+      One side has no players — can't be reported.
+    </p>
+  </article>
+</div>
+`;
+
+exports[`ActiveBoards — snapshots > matches snapshot for a board with one solo side 1`] = `
+<div
+  class="boards"
+>
+  <article
+    class="board "
+  >
+    <div
+      class="match"
+    >
+      <div
+        class="team solo"
+        style="border-left: 4px solid rgb(46, 125, 50);"
+      >
+        <div
+          class="players"
+        >
+          <div
+            class="playerSlot"
+          >
+            <img
+              alt=""
+              class="avatar"
+              decoding="async"
+              loading="lazy"
+              src="/img/solo.jpg"
+            />
+            <span
+              class="playerName"
+            >
+              Solo
+            </span>
+            <span
+              class="playerRank"
+            >
+              unranked
+            </span>
+          </div>
+        </div>
+        <span
+          class="soloNote"
+        >
+          plays alone
+        </span>
+      </div>
+      <div
+        class="imageWrap"
+      >
+        <img
+          alt=""
+          class="tableImage"
+          src="/img/fussball-table-nummer-1.png"
+        />
+        <span
+          class="tableLabelOverlay"
+        >
+          T1
+        </span>
+      </div>
+      <div
+        class="team "
+        style="border-left: 4px solid rgb(208, 74, 74);"
+      >
+        <div
+          class="players"
+        >
+          <div
+            class="playerSlot"
+          >
+            <img
+              alt=""
+              class="avatar"
+              decoding="async"
+              loading="lazy"
+              src="/img/c.jpg"
+            />
+            <span
+              class="playerName"
+            >
+              C
+            </span>
+            <span
+              class="playerRank"
+            >
+              unranked
+            </span>
+          </div>
+          <div
+            class="playerSlot"
+          >
+            <img
+              alt=""
+              class="avatar"
+              decoding="async"
+              loading="lazy"
+              src="/img/d.jpg"
+            />
+            <span
+              class="playerName"
+            >
+              D
+            </span>
+            <span
+              class="playerRank"
+            >
+              unranked
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="actions"
+    >
+      <button
+        class="winnerButton"
+        style="background: rgb(46, 125, 50); border-color: rgb(46, 125, 50); color: rgb(255, 255, 255);"
+        type="button"
+      >
+        <span>
+          Green
+           won
+        </span>
+        <span
+          class="buttonStakes"
+        >
+          +
+          48
+           pts
+        </span>
+      </button>
+      <button
+        class="winnerButton tie"
+        type="button"
+      >
+        <span>
+          Tie
+        </span>
+        <span
+          class="buttonStakes"
+        >
+          no points
+        </span>
+      </button>
+      <button
+        class="winnerButton"
+        style="background: rgb(208, 74, 74); border-color: rgb(208, 74, 74); color: rgb(255, 255, 255);"
+        type="button"
+      >
+        <span>
+          Red
+           won
+        </span>
+        <span
+          class="buttonStakes"
+        >
+          +
+          2
+           pts
+        </span>
+      </button>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`ActiveBoards — snapshots > matches snapshot for a fully-staffed single board 1`] = `
+<div
+  class="boards"
+>
+  <article
+    class="board "
+  >
+    <div
+      class="match"
+    >
+      <div
+        class="team "
+        style="border-left: 4px solid rgb(46, 125, 50);"
+      >
+        <div
+          class="players"
+        >
+          <div
+            class="playerSlot"
+          >
+            <img
+              alt=""
+              class="avatar"
+              decoding="async"
+              loading="lazy"
+              src="/img/a.jpg"
+            />
+            <span
+              class="playerName"
+            >
+              A
+            </span>
+            <span
+              class="playerRank"
+            >
+              unranked
+            </span>
+          </div>
+          <div
+            class="playerSlot"
+          >
+            <img
+              alt=""
+              class="avatar"
+              decoding="async"
+              loading="lazy"
+              src="/img/b.jpg"
+            />
+            <span
+              class="playerName"
+            >
+              B
+            </span>
+            <span
+              class="playerRank"
+            >
+              unranked
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="imageWrap"
+      >
+        <img
+          alt=""
+          class="tableImage"
+          src="/img/fussball-table-nummer-1.png"
+        />
+        <span
+          class="tableLabelOverlay"
+        >
+          T1
+        </span>
+      </div>
+      <div
+        class="team "
+        style="border-left: 4px solid rgb(208, 74, 74);"
+      >
+        <div
+          class="players"
+        >
+          <div
+            class="playerSlot"
+          >
+            <img
+              alt=""
+              class="avatar"
+              decoding="async"
+              loading="lazy"
+              src="/img/c.jpg"
+            />
+            <span
+              class="playerName"
+            >
+              C
+            </span>
+            <span
+              class="playerRank"
+            >
+              unranked
+            </span>
+          </div>
+          <div
+            class="playerSlot"
+          >
+            <img
+              alt=""
+              class="avatar"
+              decoding="async"
+              loading="lazy"
+              src="/img/d.jpg"
+            />
+            <span
+              class="playerName"
+            >
+              D
+            </span>
+            <span
+              class="playerRank"
+            >
+              unranked
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="actions"
+    >
+      <button
+        class="winnerButton"
+        style="background: rgb(46, 125, 50); border-color: rgb(46, 125, 50); color: rgb(255, 255, 255);"
+        type="button"
+      >
+        <span>
+          Green
+           won
+        </span>
+        <span
+          class="buttonStakes"
+        >
+          +
+          25
+           pts
+        </span>
+      </button>
+      <button
+        class="winnerButton tie"
+        type="button"
+      >
+        <span>
+          Tie
+        </span>
+        <span
+          class="buttonStakes"
+        >
+          no points
+        </span>
+      </button>
+      <button
+        class="winnerButton"
+        style="background: rgb(208, 74, 74); border-color: rgb(208, 74, 74); color: rgb(255, 255, 255);"
+        type="button"
+      >
+        <span>
+          Red
+           won
+        </span>
+        <span
+          class="buttonStakes"
+        >
+          +
+          25
+           pts
+        </span>
+      </button>
+    </div>
+  </article>
+</div>
+`;

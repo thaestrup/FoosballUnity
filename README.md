@@ -22,33 +22,56 @@ parent-folder/
 Services
 --------
 
-| Service   | Image                       | Port | Notes                                              |
-|-----------|-----------------------------|------|----------------------------------------------------|
-| mariadb   | `mariadb:10.11`             | 3306 | DB `nykreditfoosballunity`, user `football` (no pw)|
-| backend   | `eclipse-temurin:11-jdk`    | 5050 | Runs `./gradlew run` against bind-mounted source   |
-| frontend  | `node:10`                   | 4200 | `ng serve` against bind-mounted source             |
-
-Open <http://localhost:4200> once everything is up.
+| Service   | Image                       | Port  | Notes                                                            |
+|-----------|-----------------------------|-------|------------------------------------------------------------------|
+| mariadb   | `mariadb:10.11`             | 3306  | DB `nykreditfoosballunity`, user `football` (no pw)              |
+| backend   | `eclipse-temurin:11-jdk`    | 5050  | Runs `./gradlew run`. Dev: bind-mounts source. Prod: built image.|
+| frontend  | `node:20-alpine` (dev)      | 4200  | Vite dev server against bind-mounted source                      |
+| frontend  | `nginx:alpine` (prod)       | 8080  | Static `dist/` served by nginx, port set by `FRONTEND_PORT`      |
 
 Quick start
 -----------
 
 ```
-podman compose up -d            # or: docker compose up -d
+./scripts/init-env.sh                       # creates .env from .env.example (no-op if present)
+podman compose up -d                        # dev: Vite on http://localhost:4200
 ```
 
 First boot pulls images and downloads Gradle + npm deps; expect a couple of minutes. Subsequent starts are seconds because the gradle cache and `node_modules` are persisted.
+
+Production-style run
+--------------------
+
+```
+./scripts/init-env.sh                       # if you haven't already
+podman compose down                         # stop dev first if it's running
+podman compose -f docker-compose.prod.yml up -d --build
+# frontend on http://localhost:${FRONTEND_PORT:-8080}, backend on :5050
+```
+
+The prod compose builds the React app with `VITE_BACKEND_URL` baked in, serves the static bundle via nginx (SPA fallback + 1-year cache on `/assets/*`), and brings up backend + db without source bind-mounts. Both stacks use host networking on this machine (no `tun` module → no rootless bridge), so they share host ports and **only one stack runs at a time**. Switch back with `podman compose -f docker-compose.prod.yml down` then `podman compose up -d`.
+
+Configuration (.env)
+--------------------
+
+`scripts/init-env.sh` copies `.env.example` to `.env` on first run and leaves an existing `.env` untouched. Variables:
+
+- `VITE_BACKEND_URL` — backend URL the React app calls. Dev reads it at runtime; prod bakes it into the bundle at build time, so a change requires `--build`.
+- `FRONTEND_PORT` — host port nginx listens on in prod (default `8080`). Use `>=1024` since rootless containers can't bind privileged ports.
 
 Common commands
 ---------------
 
 ```
-podman compose up -d                    # start everything
-podman compose down                     # stop, keep data
-podman compose down -v                  # stop and wipe DB + gradle cache
-podman compose logs -f backend          # tail one service
-podman compose restart backend          # restart one service
+podman compose up -d                        # start dev stack
+podman compose down                         # stop, keep data
+podman compose down -v                      # stop and wipe DB + gradle cache
+podman compose logs -f backend              # tail one service
+podman compose restart backend              # restart one service
+podman compose -f docker-compose.prod.yml up -d --build   # prod stack
 ```
+
+> Dev and prod share the `football_mariadb-data` volume (same compose project name), so DB content persists across swaps. The `db-init` scripts only run on a **fresh** volume — if you change `00-create-user.sql` or `01-schema.sql`, you must `podman compose down -v` (destroys data) for them to re-run.
 
 Persistence
 -----------

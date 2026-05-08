@@ -1,0 +1,99 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ChampionOverlay > matches snapshot with full top 3 1`] = `
+<div
+  aria-label="New leader"
+  aria-modal="true"
+  class="overlay"
+  role="dialog"
+  tabindex="-1"
+>
+  <div
+    class="title"
+  >
+    🏆 New leader
+  </div>
+  <div
+    class="podium"
+  >
+    <div
+      class="step step_2"
+    >
+      <img
+        alt=""
+        class="avatar"
+        decoding="async"
+        loading="lazy"
+        src="/img/joan.jpg"
+      />
+      <span
+        class="name"
+      >
+        Joan
+      </span>
+      <span
+        class="points"
+      >
+        1550
+      </span>
+      <div
+        class="platform platform_2"
+      >
+        2
+      </div>
+    </div>
+    <div
+      class="step step_1"
+    >
+      <img
+        alt=""
+        class="avatar"
+        decoding="async"
+        loading="lazy"
+        src="/img/lars.jpg"
+      />
+      <span
+        class="name"
+      >
+        Lars
+      </span>
+      <span
+        class="points"
+      >
+        1600
+      </span>
+      <div
+        class="platform platform_1"
+      >
+        1
+      </div>
+    </div>
+    <div
+      class="step step_3"
+    >
+      <img
+        alt=""
+        class="avatar"
+        decoding="async"
+        loading="lazy"
+        src="/img/frank.jpg"
+      />
+      <span
+        class="name"
+      >
+        Frank
+      </span>
+      <span
+        class="points"
+      >
+        1500
+      </span>
+      <div
+        class="platform platform_3"
+      >
+        3
+      </div>
+    </div>
+  </div>
+</div>
+`;

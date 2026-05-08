@@ -36,14 +36,18 @@ services:
     restart: unless-stopped
 
   frontend:
-    build: .
-    image: foosball-frontend:latest
+    build:
+      context: .
+      target: dev
+    image: foosball-frontend:dev
     container_name: foosball-frontend
     network_mode: host
     working_dir: /usr/src/app
+    environment:
+      VITE_BACKEND_URL: ${VITE_BACKEND_URL:-http://localhost:5050}
     volumes:
       - .:/usr/src/app:Z
-    command: ["sh", "-c", "[ -d node_modules ] || npm install; node node_modules/.bin/ng serve --host 0.0.0.0 --port 4200"]
+    command: ["sh", "-c", "[ -d node_modules ] || npm install; npm run dev"]
     depends_on:
       - backend
     restart: unless-stopped

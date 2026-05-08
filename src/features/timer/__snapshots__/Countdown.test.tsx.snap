@@ -1,0 +1,61 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Countdown — snapshot > matches snapshot in the ready (not-started) state 1`] = `
+<div
+  class="wrapper"
+>
+  <div
+    class="display normal "
+  >
+    <span
+      class="time"
+    >
+      2:00
+    </span>
+    <span
+      class="label"
+    >
+      ready
+    </span>
+  </div>
+  <div
+    class="controls"
+  >
+    <button
+      class="primary"
+      type="button"
+    >
+      Start / Reset
+    </button>
+    <label
+      class="field"
+    >
+      <span>
+        Duration
+      </span>
+      <select
+        class="select"
+      >
+        <option
+          value="30"
+        >
+          30
+           s
+        </option>
+        <option
+          value="60"
+        >
+          60
+           s
+        </option>
+        <option
+          value="120"
+        >
+          120
+           s
+        </option>
+      </select>
+    </label>
+  </div>
+</div>
+`;

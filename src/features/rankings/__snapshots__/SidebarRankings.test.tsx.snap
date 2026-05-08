@@ -1,0 +1,163 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SidebarRankings — snapshot > matches snapshot with mocked rankings 1`] = `
+<div
+  class="wrapper"
+>
+  <div
+    class="tabs short"
+  >
+    <button
+      class="tab "
+      type="button"
+    >
+      Hr
+    </button>
+    <button
+      class="tab "
+      type="button"
+    >
+      Day
+    </button>
+    <button
+      class="tab "
+      type="button"
+    >
+      Wk
+    </button>
+    <button
+      class="tab "
+      type="button"
+    >
+      Mo
+    </button>
+    <button
+      aria-current="true"
+      class="tab active"
+      type="button"
+    >
+      All
+    </button>
+  </div>
+  <ol
+    class="list"
+  >
+    <li>
+      <a
+        class="row"
+        href="/player/Lars"
+      >
+        <span
+          class="medal gold"
+        >
+          1
+        </span>
+        <img
+          alt=""
+          class="avatar"
+          decoding="async"
+          loading="lazy"
+          src="/img/lars.jpg"
+        />
+        <span
+          class="name"
+        >
+          Lars
+        </span>
+        <span
+          class="points"
+        >
+          1530
+        </span>
+      </a>
+    </li>
+    <li>
+      <a
+        class="row"
+        href="/player/Joan"
+      >
+        <span
+          class="medal silver"
+        >
+          2
+        </span>
+        <img
+          alt=""
+          class="avatar"
+          decoding="async"
+          loading="lazy"
+          src="/img/joan.jpg"
+        />
+        <span
+          class="name"
+        >
+          Joan
+        </span>
+        <span
+          class="points"
+        >
+          1510
+        </span>
+      </a>
+    </li>
+    <li>
+      <a
+        class="row"
+        href="/player/Frank"
+      >
+        <span
+          class="medal bronze"
+        >
+          3
+        </span>
+        <img
+          alt=""
+          class="avatar"
+          decoding="async"
+          loading="lazy"
+          src="/img/frank.jpg"
+        />
+        <span
+          class="name"
+        >
+          Frank
+        </span>
+        <span
+          class="points"
+        >
+          1490
+        </span>
+      </a>
+    </li>
+    <li>
+      <a
+        class="row"
+        href="/player/Daniel"
+      >
+        <span
+          class="medal "
+        >
+          4
+        </span>
+        <img
+          alt=""
+          class="avatar"
+          decoding="async"
+          loading="lazy"
+          src="/img/daniel.jpg"
+        />
+        <span
+          class="name"
+        >
+          Daniel
+        </span>
+        <span
+          class="points"
+        >
+          1450
+        </span>
+      </a>
+    </li>
+  </ol>
+</div>
+`;

@@ -1,0 +1,36 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Dialog — snapshot > matches snapshot when open with title and body 1`] = `
+<dialog
+  class="dialog"
+  open=""
+>
+  <div
+    class="content"
+  >
+    <header
+      class="header"
+    >
+      <h2
+        class="title"
+      >
+        Demo
+      </h2>
+      <button
+        aria-label="Close"
+        class="close"
+        type="button"
+      >
+        ×
+      </button>
+    </header>
+    <div
+      class="body"
+    >
+      <p>
+        snapshot body
+      </p>
+    </div>
+  </div>
+</dialog>
+`;

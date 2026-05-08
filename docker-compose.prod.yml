@@ -1,0 +1,52 @@
+name: football
+
+services:
+  mariadb:
+    image: docker.io/library/mariadb:10.11
+    container_name: foosball-mariadb
+    network_mode: host
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: nykreditfoosballunity
+      MARIADB_USER: football
+      MARIADB_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+      - ../TableSoccerREST/db-init:/docker-entrypoint-initdb.d:ro,Z
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+
+  backend:
+    build: ../TableSoccerREST
+    image: foosball-backend:prod
+    container_name: foosball-backend
+    network_mode: host
+    volumes:
+      - gradle-cache:/root/.gradle
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      target: prod
+      args:
+        VITE_BACKEND_URL: ${VITE_BACKEND_URL:-http://localhost:5050}
+    image: foosball-frontend:prod
+    container_name: foosball-frontend
+    network_mode: host
+    environment:
+      NGINX_PORT: ${FRONTEND_PORT:-8080}
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mariadb-data:
+  gradle-cache:

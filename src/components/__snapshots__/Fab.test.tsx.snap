@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Fab > matches snapshot with a custom icon 1`] = `
+<button
+  aria-label="Report"
+  class="fab"
+  title="Report"
+  type="button"
+>
+  <span>
+    ★
+  </span>
+</button>
+`;
+
+exports[`Fab > matches snapshot with default icon 1`] = `
+<button
+  aria-label="Add player"
+  class="fab"
+  title="Add player"
+  type="button"
+>
+  +
+</button>
+`;
