@@ -21,6 +21,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate route tree
+        run: npm run router:gen
+
       - name: Type check
         run: npx tsc -b --noEmit
 

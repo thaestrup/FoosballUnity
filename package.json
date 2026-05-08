@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "router:gen": "tsr generate",
+    "build": "npm run router:gen && tsc -b && vite build",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "TZ=UTC vitest",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
+    "@tanstack/router-cli": "^1.166.43",
     "@tanstack/router-plugin": "^1.99.0",
     "@testing-library/jest-dom": "^6.6.0",
     "@testing-library/react": "^16.1.0",
