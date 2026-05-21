@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithProviders } from '@/test/render'
 import { BackendUrlBadge } from './BackendUrlBadge'
@@ -20,22 +20,25 @@ afterEach(() => {
 })
 
 describe('BackendUrlBadge — chip rendering', () => {
-  it('shows the default URL (host portion) when no override is set', () => {
+  it('shows the default URL (host portion) when no override is set', async () => {
     renderWithProviders(<BackendUrlBadge />)
-    // The default in .env.test is http://localhost:5050 — chip shows the host.
-    expect(screen.getByText(/localhost:5050/)).toBeInTheDocument()
+    // The Dialog renders its body into the DOM even when closed (jsdom
+    // doesn't enforce hiding), so scope the assertion to the chip button.
+    const chip = await screen.findByRole('button', { name: /API/ })
+    expect(within(chip).getByText(/localhost:5050/)).toBeInTheDocument()
     // No "override active" dot when default is in effect.
     expect(
-      screen.queryByRole('status', { name: /override active/i }),
+      within(chip).queryByRole('status', { name: /override active/i }),
     ).not.toBeInTheDocument()
   })
 
-  it('shows an "override active" indicator when an override is set', () => {
+  it('shows an "override active" indicator when an override is set', async () => {
     setBackendUrlOverride('http://override.test:9999')
     renderWithProviders(<BackendUrlBadge />)
-    expect(screen.getByText(/override.test:9999/)).toBeInTheDocument()
+    const chip = await screen.findByRole('button', { name: /API/ })
+    expect(within(chip).getByText(/override.test:9999/)).toBeInTheDocument()
     expect(
-      screen.getByRole('status', { name: /override active/i }),
+      within(chip).getByRole('status', { name: /override active/i }),
     ).toBeInTheDocument()
   })
 })
@@ -45,7 +48,7 @@ describe('BackendUrlBadge — editing', () => {
     const user = userEvent.setup()
     renderWithProviders(<BackendUrlBadge />)
 
-    await user.click(screen.getByRole('button', { name: /API/ }))
+    await user.click(await screen.findByRole('button', { name: /API/ }))
 
     const input = (await screen.findByLabelText(/API URL/i)) as HTMLInputElement
     expect(input.value).toBe(getBackendUrlDefault())
@@ -55,7 +58,7 @@ describe('BackendUrlBadge — editing', () => {
     const user = userEvent.setup()
     renderWithProviders(<BackendUrlBadge />)
 
-    await user.click(screen.getByRole('button', { name: /API/ }))
+    await user.click(await screen.findByRole('button', { name: /API/ }))
     const input = await screen.findByLabelText(/API URL/i)
     await user.clear(input)
     await user.type(input, 'http://new-host.test:7000')
@@ -72,7 +75,7 @@ describe('BackendUrlBadge — editing', () => {
     const user = userEvent.setup()
     renderWithProviders(<BackendUrlBadge />)
 
-    await user.click(screen.getByRole('button', { name: /API/ }))
+    await user.click(await screen.findByRole('button', { name: /API/ }))
     const input = await screen.findByLabelText(/API URL/i)
     await user.clear(input)
     await user.type(input, 'not a url')
@@ -88,7 +91,7 @@ describe('BackendUrlBadge — editing', () => {
     const user = userEvent.setup()
     renderWithProviders(<BackendUrlBadge />)
 
-    await user.click(screen.getByRole('button', { name: /API/ }))
+    await user.click(await screen.findByRole('button', { name: /API/ }))
     const input = await screen.findByLabelText(/API URL/i)
     await user.clear(input)
     await user.type(input, 'ftp://example.test')
@@ -103,7 +106,7 @@ describe('BackendUrlBadge — editing', () => {
     const user = userEvent.setup()
     renderWithProviders(<BackendUrlBadge />)
 
-    await user.click(screen.getByRole('button', { name: /API/ }))
+    await user.click(await screen.findByRole('button', { name: /API/ }))
     const input = await screen.findByLabelText(/API URL/i)
     await user.clear(input)
     await user.type(input, getBackendUrlDefault())
@@ -119,7 +122,7 @@ describe('BackendUrlBadge — editing', () => {
     const user = userEvent.setup()
     renderWithProviders(<BackendUrlBadge />)
 
-    await user.click(screen.getByRole('button', { name: /API/ }))
+    await user.click(await screen.findByRole('button', { name: /API/ }))
     const resetBtn = await screen.findByRole('button', {
       name: /reset to default/i,
     })
@@ -134,7 +137,7 @@ describe('BackendUrlBadge — editing', () => {
     const user = userEvent.setup()
     renderWithProviders(<BackendUrlBadge />)
 
-    await user.click(screen.getByRole('button', { name: /API/ }))
+    await user.click(await screen.findByRole('button', { name: /API/ }))
     await screen.findByLabelText(/API URL/i)
     expect(
       screen.queryByRole('button', { name: /reset to default/i }),
@@ -145,7 +148,7 @@ describe('BackendUrlBadge — editing', () => {
     const user = userEvent.setup()
     renderWithProviders(<BackendUrlBadge />)
 
-    await user.click(screen.getByRole('button', { name: /API/ }))
+    await user.click(await screen.findByRole('button', { name: /API/ }))
     const input = await screen.findByLabelText(/API URL/i)
     await user.clear(input)
     await user.type(input, 'http://trailing.test:8000/')

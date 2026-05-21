@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderWithProviders } from '@/test/render'
 import { ErrorNotice } from './ErrorNotice'
 import { NetworkError, ApiError } from '@/lib/api'
 
@@ -18,13 +19,13 @@ describe('ErrorNotice', () => {
     expect(screen.queryByText("Couldn't load games")).not.toBeInTheDocument()
   })
 
-  it('shows the friendly backend-unreachable copy for a NetworkError', () => {
-    render(<ErrorNotice what="games" error={new NetworkError()} />)
+  it('shows the friendly backend-unreachable copy for a NetworkError', async () => {
+    // NetworkError path renders BackendUrlBadge, which calls useQueryClient,
+    // so we need the QueryClientProvider that renderWithProviders supplies.
+    renderWithProviders(<ErrorNotice what="games" error={new NetworkError()} />)
     expect(
-      screen.getByText(/backend isn't responding/i),
+      await screen.findByText(/backend isn't responding/i),
     ).toBeInTheDocument()
-    // The raw NetworkError message ("Backend is not responding") is replaced
-    // by the friendlier sentence — make sure we don't render the raw one.
     expect(
       screen.queryByText(/^Backend is not responding$/),
     ).not.toBeInTheDocument()
@@ -40,25 +41,28 @@ describe('ErrorNotice', () => {
   it('renders a Retry button when onRetry is provided and invokes it on click', async () => {
     const user = userEvent.setup()
     const onRetry = vi.fn()
-    render(
+    renderWithProviders(
       <ErrorNotice
         what="games"
         error={new NetworkError()}
         onRetry={onRetry}
       />,
     )
-    const btn = screen.getByRole('button', { name: /retry/i })
+    const btn = await screen.findByRole('button', { name: /^retry$/i })
     await user.click(btn)
     expect(onRetry).toHaveBeenCalledTimes(1)
   })
 
-  it('omits the Retry button when onRetry is not provided', () => {
-    render(<ErrorNotice what="games" error={new NetworkError()} />)
-    expect(screen.queryByRole('button', { name: /retry/i })).not.toBeInTheDocument()
+  it('omits the Retry button when onRetry is not provided', async () => {
+    renderWithProviders(<ErrorNotice what="games" error={new NetworkError()} />)
+    await screen.findByText(/backend isn't responding/i)
+    expect(
+      screen.queryByRole('button', { name: /^retry$/i }),
+    ).not.toBeInTheDocument()
   })
 
-  it('has role="alert" so screen readers announce the failure', () => {
-    render(<ErrorNotice what="games" error={new NetworkError()} />)
-    expect(screen.getByRole('alert')).toBeInTheDocument()
+  it('has role="alert" so screen readers announce the failure', async () => {
+    renderWithProviders(<ErrorNotice what="games" error={new NetworkError()} />)
+    expect(await screen.findByRole('alert')).toBeInTheDocument()
   })
 })
