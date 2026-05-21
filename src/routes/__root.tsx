@@ -6,13 +6,23 @@ import { HeaderTimer } from '@/features/timer/HeaderTimer'
 import { playersQuery } from '@/features/players/usePlayers'
 import { ErrorNotice } from '@/components/ErrorNotice'
 import { BackendUrlBadge } from '@/components/BackendUrlBadge'
+import { useTimerSocket } from '@/features/timer/timerSocket'
 import styles from './__root.module.css'
+
+// Renders nothing — its job is to open exactly one WebSocket subscription
+// to the timer endpoint and write incoming frames to the React Query
+// cache. Lives in the root so it survives navigation between routes.
+const TimerSubscription = () => {
+  useTimerSocket()
+  return null
+}
 
 const RootComponent = () => {
   const [theme, , toggle] = useTheme()
 
   return (
     <div className={styles.shell}>
+      <TimerSubscription />
       <header className={styles.header}>
         <h1 className={styles.title}>FoosballUnity</h1>
         <nav className={styles.nav}>

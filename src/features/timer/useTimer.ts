@@ -11,12 +11,12 @@ export const timerQuery = queryOptions({
   },
 })
 
+// Subscribes to the timer query cache. Updates are driven by
+// useTimerSocket() (mounted once at the root) — via WebSocket push in the
+// happy path, or 1 Hz polling as a fallback. Consumers re-render whenever
+// the cache changes, regardless of which transport delivered the update.
 export const useTimer = () => {
-  return useQuery({
-    ...timerQuery,
-    refetchInterval: 1000,
-    refetchIntervalInBackground: false,
-  })
+  return useQuery(timerQuery)
 }
 
 export const useResetTimer = () => {
@@ -24,6 +24,9 @@ export const useResetTimer = () => {
   return useMutation({
     mutationFn: () => api('/timer', { method: 'POST' }),
     onSuccess: () => {
+      // The backend also broadcasts on POST so the WS path normally
+      // refreshes the cache without this. Kept as a fallback in case the
+      // frame is dropped (transient WS hiccup mid-reset).
       void qc.invalidateQueries({ queryKey: timerQuery.queryKey })
     },
   })

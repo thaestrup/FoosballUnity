@@ -36,10 +36,19 @@ const installStorageShim = (name: 'localStorage' | 'sessionStorage') => {
 if (typeof window.localStorage?.clear !== 'function') installStorageShim('localStorage')
 if (typeof window.sessionStorage?.clear !== 'function') installStorageShim('sessionStorage')
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
+// Contract tests hit a real backend and don't want MSW interception —
+// especially WebSocket upgrades, which MSW's http patches break even with
+// passthrough handlers registered. When VITE_CONTRACT_TESTS=1, leave MSW
+// entirely uninstalled; useLiveBackend's server.use() calls become no-ops,
+// which is harmless because there's no interceptor to dispatch them.
+const contractMode = process.env.VITE_CONTRACT_TESTS === '1'
+
+if (!contractMode) {
+  beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
+  afterAll(() => server.close())
+}
 afterEach(() => {
-  server.resetHandlers()
+  if (!contractMode) server.resetHandlers()
   resetStoredJSON()
   if (typeof window !== 'undefined') window.sessionStorage.clear()
 })
-afterAll(() => server.close())

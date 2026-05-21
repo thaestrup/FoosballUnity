@@ -1,10 +1,86 @@
 import { describe, expect, it } from 'vitest'
-import { TimerActionListSchema } from '@/features/timer/timer'
+// Use the `ws` package (already a transitive dep) so we don't depend on
+// the host runtime shipping a global WebSocket. Works the same in Node
+// versions before built-in WebSocket support.
+import { WebSocket as NodeWebSocket } from 'ws'
+import {
+  TimerActionListSchema,
+  TimerActionSchema,
+} from '@/features/timer/timer'
+import { httpToWsUrl } from '@/lib/backendUrl'
 import {
   CONTRACT_BASE,
   shouldRunContract,
   useLiveBackend,
 } from './contractEnv'
+
+// Backend sends the first frame immediately on open. If we waited until
+// after `awaitOpen` resolved to attach a message listener, that frame
+// would fire on the empty listener list and be lost. Instead, attach a
+// queueing listener up front and have awaitMessage() shift from the queue.
+type MessageQueue = {
+  next: (timeoutMs: number) => Promise<string>
+}
+
+const queueMessages = (socket: NodeWebSocket): MessageQueue => {
+  const buffer: string[] = []
+  const waiters: Array<(s: string) => void> = []
+
+  socket.on('message', (data: Buffer | ArrayBuffer | Buffer[]) => {
+    const s = data.toString()
+    const w = waiters.shift()
+    if (w) w(s)
+    else buffer.push(s)
+  })
+
+  return {
+    next: (timeoutMs) =>
+      new Promise((resolve, reject) => {
+        if (buffer.length > 0) {
+          resolve(buffer.shift() as string)
+          return
+        }
+        const onMessage = (s: string) => {
+          clearTimeout(timer)
+          resolve(s)
+        }
+        const timer = setTimeout(() => {
+          const idx = waiters.indexOf(onMessage)
+          if (idx >= 0) waiters.splice(idx, 1)
+          reject(new Error(`No WS frame within ${timeoutMs}ms`))
+        }, timeoutMs)
+        waiters.push(onMessage)
+      }),
+  }
+}
+
+const awaitOpen = (
+  socket: NodeWebSocket,
+  timeoutMs: number,
+): Promise<void> =>
+  new Promise((resolve, reject) => {
+    if (socket.readyState === socket.OPEN) {
+      resolve()
+      return
+    }
+    const timer = setTimeout(() => {
+      socket.off('open', onOpen)
+      socket.off('error', onError)
+      reject(new Error(`WS open timeout after ${timeoutMs}ms`))
+    }, timeoutMs)
+    const onOpen = () => {
+      clearTimeout(timer)
+      socket.off('error', onError)
+      resolve()
+    }
+    const onError = (err: Error) => {
+      clearTimeout(timer)
+      socket.off('open', onOpen)
+      reject(err)
+    }
+    socket.once('open', onOpen)
+    socket.once('error', onError)
+  })
 
 describe.skipIf(!shouldRunContract)('contract: timer', () => {
   useLiveBackend()
@@ -51,4 +127,64 @@ describe.skipIf(!shouldRunContract)('contract: timer', () => {
     // Legacy Timestamp.toString() format is lexicographically orderable.
     expect(after.localeCompare(before)).toBeGreaterThan(0)
   })
+})
+
+// Consumer-side mirror of TableSoccerREST/src/test/java/com/foosball/
+// contract/TimerSocketContractTest.java. Self-skips when contract tests
+// are disabled (VITE_CONTRACT_TESTS != 1) or the configured backend
+// doesn't expose /ws/timer (legacy Ratpack at :5050 — the catch in the
+// test below downgrades that to a skip).
+describe.skipIf(!shouldRunContract)('contract: timer WebSocket', () => {
+  // No useLiveBackend() — when VITE_CONTRACT_TESTS=1 the global test-setup
+  // leaves MSW uninstalled, so the WS upgrade reaches the real backend
+  // directly.
+
+  it('pushes a frame on connect and broadcasts after POST /timer', async () => {
+    const wsUrl = `${httpToWsUrl(CONTRACT_BASE)}/ws/timer`
+    const socket = new NodeWebSocket(wsUrl)
+
+    // Subscribe to messages BEFORE awaiting open: the backend sends the
+    // first frame the moment the upgrade completes, and we can't risk
+    // missing it during the await tick.
+    const queue = queueMessages(socket)
+
+    try {
+      // The legacy Ratpack backend on :5050 doesn't speak WS at all.
+      // Surface that as a skip rather than a hard failure so the same
+      // suite stays green on both backends.
+      try {
+        await awaitOpen(socket, 2_000)
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `[contract] /ws/timer not available at ${CONTRACT_BASE} — skipping (${(err as Error).message})`,
+        )
+        return
+      }
+
+      // Frame 1: emitted on connect, mirrors the current /timer row.
+      const initialRaw = await queue.next(2_000)
+      const initial = TimerActionSchema.parse(JSON.parse(initialRaw))
+      // Also accept the schema's array form for symmetry with the GET.
+      expect(TimerActionListSchema.parse([initial])).toHaveLength(1)
+      const before = initial.lastRequestedTimerStart
+
+      // MariaDB TIMESTAMP precision is per-second; let NOW() tick first.
+      await new Promise((r) => setTimeout(r, 1_100))
+
+      const postRes = await fetch(`${CONTRACT_BASE}/timer`, {
+        method: 'POST',
+      })
+      expect(postRes.ok).toBe(true)
+
+      // Frame 2: broadcast triggered by the POST.
+      const broadcastRaw = await queue.next(2_000)
+      const broadcast = TimerActionSchema.parse(JSON.parse(broadcastRaw))
+      const after = broadcast.lastRequestedTimerStart
+
+      expect(after.localeCompare(before)).toBeGreaterThan(0)
+    } finally {
+      socket.close()
+    }
+  }, 5_000)
 })

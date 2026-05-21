@@ -53,6 +53,19 @@ const subscribe = (cb: Listener): (() => void) => {
   }
 }
 
+// Derive a WebSocket URL from the current backend HTTP URL: http→ws, https→wss.
+// Trailing slash is trimmed so callers can append a path like "/ws/timer"
+// without producing a double slash.
+export const httpToWsUrl = (httpUrl: string): string => {
+  try {
+    const u = new URL(httpUrl)
+    u.protocol = u.protocol === 'https:' ? 'wss:' : 'ws:'
+    return u.toString().replace(/\/$/, '')
+  } catch {
+    return httpUrl
+  }
+}
+
 export const useBackendUrl = () => {
   const url = useSyncExternalStore(subscribe, getBackendUrl, () => DEFAULT_URL)
   const overridden = useSyncExternalStore(

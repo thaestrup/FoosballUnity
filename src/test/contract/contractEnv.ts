@@ -18,7 +18,7 @@
  * real network.
  */
 import { beforeEach } from 'vitest'
-import { http, passthrough } from 'msw'
+import { http, passthrough, ws } from 'msw'
 import { server } from '@/test/server'
 
 export const CONTRACT_BASE = process.env.VITE_CONTRACT_BASE ?? 'http://localhost:5050'
@@ -51,6 +51,35 @@ export const useLiveBackend = (): void => {
     server.use(
       http.all(`${CONTRACT_BASE}/*`, () => passthrough()),
       http.all(`${CONTRACT_BASE}/*/*`, () => passthrough()),
+    )
+    // MSW intercepts WebSocket constructors globally. To let the timer
+    // push test actually round-trip through the real backend, the WS
+    // link's connection handler must:
+    //  1. Call `server.connect()` to open a real WebSocket to the backend.
+    //  2. Manually forward messages in both directions — MSW does NOT
+    //     auto-bridge by default.
+    const wsBase = CONTRACT_BASE.replace(/^http/, 'ws')
+    server.use(
+      ws.link(`${wsBase}/*`).addEventListener(
+        'connection',
+        ({ client, server: real }) => {
+          real.connect()
+          real.addEventListener('message', (event) => {
+            const data = event.data
+            // Forward to the mocked client. `data` is always string or
+            // BufferLike from MSW.
+            client.send(
+              typeof data === 'string' ? data : new Uint8Array(data as ArrayBuffer),
+            )
+          })
+          client.addEventListener('message', (event) => {
+            const data = event.data
+            real.send(
+              typeof data === 'string' ? data : new Uint8Array(data as ArrayBuffer),
+            )
+          })
+        },
+      ),
     )
   })
 }
