@@ -127,6 +127,7 @@ export const Tournament = () => {
             tableNames={tableNames}
             states={boardStates}
             setStates={setBoardStates}
+            allowUneven={allowUneven}
           />
         )}
 

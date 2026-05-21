@@ -1,0 +1,172 @@
+.badge {
+  font: inherit;
+  font-size: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  padding: 0.25rem 0.625rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  max-width: 280px;
+  transition:
+    border-color 100ms ease,
+    color 100ms ease;
+}
+
+.badge:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.label {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.625rem;
+  color: var(--text-muted);
+}
+
+.url {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* When the user has set a tab-local override, paint the chip amber so it's
+   clear the active URL isn't the .env default. */
+.overridden {
+  border-color: #d4a017;
+  color: #d4a017;
+}
+
+.overridden .label {
+  color: #d4a017;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d4a017;
+  flex-shrink: 0;
+}
+
+.chip {
+  /* Default sizing — used in the header. */
+}
+
+.inline {
+  /* Same shape, slightly looser so it sits well below a body of text. */
+  margin-top: 0.25rem;
+}
+
+/* ---- Editor inside the Dialog ---- */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: min(380px, 80vw);
+}
+
+.help {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
+.help code {
+  background: var(--bg-soft);
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.fieldLabel {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.input {
+  font: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--error);
+}
+
+.note {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.primary,
+.secondary {
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid;
+}
+
+.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.primary:hover {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+
+.secondary {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.secondary:hover {
+  border-color: var(--text);
+}

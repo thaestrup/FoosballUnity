@@ -83,3 +83,7 @@
   padding: 1.5rem;
   color: var(--error);
 }
+
+.errorWrap {
+  padding: 1.5rem;
+}

@@ -41,6 +41,7 @@ beforeEach(async () => {
   // owned by useStoredJSON so tests start from a known-fresh baseline.
   window.sessionStorage.clear()
   await seedStoredJSON('timer:duration', 120)
+  await seedStoredJSON('timer:activeDuration', 120)
   await seedStoredJSON('timer:started', false)
   await seedStoredJSON('timer:resetAt', 0)
   await seedStoredJSON('timer:trackedKey', null)
@@ -87,7 +88,7 @@ describe('Countdown — initial render', () => {
       ),
     )
     renderWithProviders(<Countdown />)
-    expect(await screen.findByText(/Failed to load timer/i)).toBeInTheDocument()
+    expect(await screen.findByText(/Couldn't load timer/i)).toBeInTheDocument()
   })
 })
 
@@ -154,6 +155,7 @@ describe('Countdown — display label transitions', () => {
   it('shows "left" when more than 60s remain', async () => {
     // Seed a "started" state with 90s remaining (duration 120, resetAt now-30s).
     await seedStoredJSON('timer:duration', 120)
+    await seedStoredJSON('timer:activeDuration', 120)
     await seedStoredJSON('timer:started', true)
     await seedStoredJSON('timer:resetAt', Date.now() - 30_000)
     await seedStoredJSON('timer:trackedKey', '2026-05-01 12:00:00.0')
@@ -173,6 +175,7 @@ describe('Countdown — display label transitions', () => {
 
   it('shows "remaining" when 60s or fewer remain', async () => {
     await seedStoredJSON('timer:duration', 120)
+    await seedStoredJSON('timer:activeDuration', 120)
     await seedStoredJSON('timer:started', true)
     // 100s elapsed → 20s remaining.
     await seedStoredJSON('timer:resetAt', Date.now() - 100_000)
@@ -193,6 +196,7 @@ describe('Countdown — display label transitions', () => {
 
   it('shows "Time\'s up" when the duration has elapsed', async () => {
     await seedStoredJSON('timer:duration', 30)
+    await seedStoredJSON('timer:activeDuration', 30)
     await seedStoredJSON('timer:started', true)
     // 60s elapsed → -30s remaining (clamps to 0 in display).
     await seedStoredJSON('timer:resetAt', Date.now() - 60_000)

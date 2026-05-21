@@ -8,6 +8,7 @@ import { PeriodTabs } from '@/components/PeriodTabs'
 import { formatDbTimestamp } from '@/lib/time'
 import { Fab } from '@/components/Fab'
 import { Dialog } from '@/components/Dialog'
+import { ErrorNotice } from '@/components/ErrorNotice'
 import styles from './GamesList.module.css'
 
 type Props = {
@@ -16,7 +17,7 @@ type Props = {
 
 export const GamesList = ({ prefill = null }: Props) => {
   const [period, setPeriod] = useState<Period>('week')
-  const { data: games, isPending, error } = useGames(period)
+  const { data: games, isPending, error, refetch } = useGames(period)
   const clearAll = useClearAllGames()
 
   const [reportOpen, setReportOpen] = useState(prefill !== null)
@@ -59,7 +60,7 @@ export const GamesList = ({ prefill = null }: Props) => {
 
       {isPending && <p className={styles.muted}>Loading games…</p>}
       {error && (
-        <p className={styles.error}>Failed to load games: {error.message}</p>
+        <ErrorNotice what="games" error={error} onRetry={() => void refetch()} />
       )}
       {games && games.length === 0 && (
         <p className={styles.muted}>

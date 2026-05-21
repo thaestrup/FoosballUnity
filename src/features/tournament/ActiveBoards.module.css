@@ -2,7 +2,11 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75rem;
-  align-items: start;
+  /* `stretch` (the grid default) is what we want so a 1v1 and a 2v2 in the
+     same row match heights. At narrow widths the 2v2 wraps its avatars to
+     two rows, making its card taller; without stretch the 1v1 stayed at
+     its own (shorter) content height and the two cards looked mismatched. */
+  align-items: stretch;
 }
 
 /* Two columns once there's enough room. Capped at 2 even on very wide

@@ -6,13 +6,12 @@ services:
     container_name: foosball-mariadb
     network_mode: host
     environment:
-      MARIADB_ROOT_PASSWORD: root
-      MARIADB_DATABASE: nykreditfoosballunity
-      MARIADB_USER: football
-      MARIADB_ALLOW_EMPTY_PASSWORD: "yes"
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MARIADB_DATABASE: ${DB_NAME:-nykreditfoosballunity}
+      MARIADB_USER: ${DB_USER:-football}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-football}
     volumes:
       - mariadb-data:/var/lib/mysql
-      - ../TableSoccerREST/db-init:/docker-entrypoint-initdb.d:ro,Z
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 5s
@@ -21,15 +20,18 @@ services:
     restart: unless-stopped
 
   backend:
-    build: ../TableSoccerREST
+    build:
+      context: ../TableSoccerREST
+      dockerfile: src/main/docker/Dockerfile.jvm
     image: foosball-backend:latest
     container_name: foosball-backend
     network_mode: host
-    working_dir: /usr/src/app
-    volumes:
-      - ../TableSoccerREST:/usr/src/app:Z
-      - gradle-cache:/root/.gradle
-    command: ["./gradlew", "run"]
+    environment:
+      DB_URL: jdbc:mariadb://localhost:3306/${DB_NAME:-nykreditfoosballunity}?useSsl=false
+      DB_USER: ${DB_USER:-football}
+      DB_PASSWORD: ${DB_PASSWORD:-football}
+      ALLOWED_ORIGINS: ${VITE_BACKEND_URL:-http://localhost:5173}
+      QUARKUS_HTTP_PORT: "5051"
     depends_on:
       mariadb:
         condition: service_healthy
@@ -44,7 +46,7 @@ services:
     network_mode: host
     working_dir: /usr/src/app
     environment:
-      VITE_BACKEND_URL: ${VITE_BACKEND_URL:-http://localhost:5050}
+      VITE_BACKEND_URL: ${VITE_BACKEND_URL:-http://localhost:5051}
     volumes:
       - .:/usr/src/app:Z
     command: ["sh", "-c", "[ -d node_modules ] || npm install; npm run dev"]
@@ -54,4 +56,3 @@ services:
 
 volumes:
   mariadb-data:
-  gradle-cache:

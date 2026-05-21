@@ -21,7 +21,15 @@ afterEach(() => {
 
 // Tiny controlled wrapper so the test can drive ActiveBoards' `states` prop
 // the same way the page does (via useStoredJSON).
-const Harness = ({ rounds, tableNames }: { rounds: TournamentRound[]; tableNames: string[] }) => {
+const Harness = ({
+  rounds,
+  tableNames,
+  allowUneven,
+}: {
+  rounds: TournamentRound[]
+  tableNames: string[]
+  allowUneven?: boolean
+}) => {
   const [states, setStates] = useState<BoardStateMap>({})
   return (
     <ActiveBoards
@@ -29,6 +37,7 @@ const Harness = ({ rounds, tableNames }: { rounds: TournamentRound[]; tableNames
       tableNames={tableNames}
       states={states}
       setStates={setStates}
+      allowUneven={allowUneven}
     />
   )
 }
@@ -125,6 +134,111 @@ describe('ActiveBoards — rendering', () => {
     renderWithProviders(<Harness rounds={rounds} tableNames={['T1']} />)
     expect(await screen.findByText(/Round 1 · T1/)).toBeInTheDocument()
     expect(screen.getByText(/Round 2 · T1/)).toBeInTheDocument()
+  })
+})
+
+describe('ActiveBoards — 1v1 boards (both back slots null)', () => {
+  it('renders as a 1v1 with no "plays alone" badges on either side', async () => {
+    server.use(
+      http.get(`${BASE}/pointsPrPlayer/alltime`, () => HttpResponse.json([])),
+    )
+    const rounds: TournamentRound[] = [
+      {
+        games: [
+          {
+            player_red_1: 'Alice',
+            player_red_2: null,
+            player_blue_1: 'Bob',
+            player_blue_2: null,
+          },
+        ],
+      },
+    ]
+    renderWithProviders(<Harness rounds={rounds} tableNames={['T1']} />)
+
+    // Both player names appear, but no "plays alone" badge, and no
+    // Wildcard fallback avatar — the back row is correctly absent.
+    expect(await screen.findByText('Alice')).toBeInTheDocument()
+    expect(screen.getByText('Bob')).toBeInTheDocument()
+    expect(screen.queryByText('plays alone')).not.toBeInTheDocument()
+    expect(screen.queryByText(/Wildcard/i)).not.toBeInTheDocument()
+    const imgs = Array.from(document.querySelectorAll('img'))
+    expect(imgs.some((i) => i.src.includes('/img/Wildcard.jpg'))).toBe(false)
+  })
+
+  it('appends " · 1v1" to the table label so the smaller layout is intentional', async () => {
+    server.use(
+      http.get(`${BASE}/pointsPrPlayer/alltime`, () => HttpResponse.json([])),
+    )
+    const rounds: TournamentRound[] = [
+      {
+        games: [
+          {
+            player_red_1: 'Alice',
+            player_red_2: null,
+            player_blue_1: 'Bob',
+            player_blue_2: null,
+          },
+        ],
+      },
+    ]
+    renderWithProviders(<Harness rounds={rounds} tableNames={['Fort']} />)
+
+    expect(await screen.findByText('Fort · 1v1')).toBeInTheDocument()
+  })
+
+  it('does NOT mark a 2v2 board as 1v1', async () => {
+    server.use(
+      http.get(`${BASE}/pointsPrPlayer/alltime`, () => HttpResponse.json([])),
+    )
+    renderWithProviders(
+      <Harness rounds={[fullRound('A', 'B', 'C', 'D')]} tableNames={['Fort']} />,
+    )
+
+    expect(await screen.findByText('Fort')).toBeInTheDocument()
+    expect(screen.queryByText(/· 1v1/)).not.toBeInTheDocument()
+  })
+})
+
+describe('ActiveBoards — 2v1 filtering by allowUneven', () => {
+  const twoBoardsRound: TournamentRound[] = [
+    {
+      games: [
+        // 2v2 board — always visible.
+        { player_red_1: 'A', player_red_2: 'B', player_blue_1: 'C', player_blue_2: 'D' },
+        // 2v1 board (blue side short) — gated on allowUneven.
+        { player_red_1: 'E', player_red_2: 'F', player_blue_1: 'G', player_blue_2: null },
+      ],
+    },
+  ]
+
+  it('hides 2v1 boards when allowUneven is false (the default product behaviour)', async () => {
+    server.use(
+      http.get(`${BASE}/pointsPrPlayer/alltime`, () => HttpResponse.json([])),
+    )
+    renderWithProviders(
+      <Harness rounds={twoBoardsRound} tableNames={['T1', 'T2']} allowUneven={false} />,
+    )
+
+    // First (2v2) board visible.
+    expect(await screen.findByText('A')).toBeInTheDocument()
+    // Second (2v1) board hidden — none of its players render.
+    expect(screen.queryByText('E')).not.toBeInTheDocument()
+    expect(screen.queryByText('G')).not.toBeInTheDocument()
+    expect(screen.queryByText('plays alone')).not.toBeInTheDocument()
+  })
+
+  it('shows 2v1 boards (with "plays alone") when allowUneven is true', async () => {
+    server.use(
+      http.get(`${BASE}/pointsPrPlayer/alltime`, () => HttpResponse.json([])),
+    )
+    renderWithProviders(
+      <Harness rounds={twoBoardsRound} tableNames={['T1', 'T2']} allowUneven={true} />,
+    )
+
+    expect(await screen.findByText('E')).toBeInTheDocument()
+    expect(screen.getByText('G')).toBeInTheDocument()
+    expect(screen.getByText('plays alone')).toBeInTheDocument()
   })
 })
 

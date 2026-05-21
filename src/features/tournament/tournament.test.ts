@@ -49,6 +49,35 @@ describe('TournamentGameSchema', () => {
       TournamentGameSchema.parse({ ...fullGame, player_red_1: 42 }),
     ).toThrow()
   })
+
+  it('normalizes the literal string "null" to JS null in any slot', () => {
+    // Mirrors a real backend response: Groovy concat writes "null" rather
+    // than JSON null when a wildcard slot has no player.
+    const raw = {
+      player_red_1: 'Lars',
+      player_red_2: 'null',
+      player_blue_1: 'Frank',
+      player_blue_2: 'null',
+    }
+    expect(TournamentGameSchema.parse(raw)).toEqual({
+      player_red_1: 'Lars',
+      player_red_2: null,
+      player_blue_1: 'Frank',
+      player_blue_2: null,
+    })
+  })
+
+  it('normalizes the empty string to JS null in any slot', () => {
+    const raw = {
+      player_red_1: 'Lars',
+      player_red_2: '',
+      player_blue_1: '',
+      player_blue_2: 'Daniel',
+    }
+    const parsed = TournamentGameSchema.parse(raw)
+    expect(parsed.player_red_2).toBeNull()
+    expect(parsed.player_blue_1).toBeNull()
+  })
 })
 
 describe('TournamentRoundSchema', () => {

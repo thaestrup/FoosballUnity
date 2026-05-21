@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useStoredJSON } from '@/lib/useStoredJSON'
 import { useResetTimer, useTimer } from './useTimer'
 import { formatMmSs } from './timer'
+import { ErrorNotice } from '@/components/ErrorNotice'
 import styles from './Countdown.module.css'
 
 const DURATION_OPTIONS = [30, 60, 120] as const
@@ -10,10 +11,18 @@ const DEFAULT_DURATION_SEC = 120
 const DUKE_COUNT = 8
 
 export const Countdown = () => {
-  const { data: timer, isPending, error } = useTimer()
+  const { data: timer, isPending, error, refetch } = useTimer()
   const reset = useResetTimer()
   const [duration, setDuration] = useStoredJSON<number>(
     'timer:duration',
+    DEFAULT_DURATION_SEC,
+  )
+  // `duration` is the dropdown selection (a preview). `activeDuration` is
+  // captured at the moment of Start/Reset, so changing the dropdown while a
+  // timer is running does not retroactively alter it — the running timer
+  // keeps the duration it was started with.
+  const [activeDuration, setActiveDuration] = useStoredJSON<number>(
+    'timer:activeDuration',
     DEFAULT_DURATION_SEC,
   )
   const [now, setNow] = useState(() => Date.now())
@@ -39,12 +48,23 @@ export const Countdown = () => {
       return
     }
     if (timer.lastRequestedTimerStart !== trackedKey) {
-      // Server reset detected (us or another client) — start the local stopwatch.
+      // Server reset detected (us or another client) — start the local
+      // stopwatch and snapshot the current dropdown selection as the
+      // running duration.
       setTrackedKey(timer.lastRequestedTimerStart)
       setResetAt(Date.now())
       setStarted(true)
+      setActiveDuration(duration)
     }
-  }, [timer, trackedKey, setTrackedKey, setResetAt, setStarted])
+  }, [
+    timer,
+    trackedKey,
+    duration,
+    setTrackedKey,
+    setResetAt,
+    setStarted,
+    setActiveDuration,
+  ])
 
   // Local clock tick so the display advances between server polls.
   useEffect(() => {
@@ -53,7 +73,7 @@ export const Countdown = () => {
   }, [])
 
   const elapsed = started ? Math.max(0, Math.floor((now - resetAt) / 1000)) : 0
-  const remaining = duration - elapsed
+  const remaining = activeDuration - elapsed
   const displayRemaining = started ? Math.max(0, remaining) : duration
 
   // Pre-create the Duke samples once. Picked at random per Reset click for
@@ -84,7 +104,10 @@ export const Countdown = () => {
   }
 
   if (isPending) return <p className={styles.muted}>Loading timer…</p>
-  if (error) return <p className={styles.error}>Failed to load timer: {error.message}</p>
+  if (error)
+    return (
+      <ErrorNotice what="timer" error={error} onRetry={() => void refetch()} />
+    )
 
   const isFinished = started && remaining <= 0
   const phase = !started

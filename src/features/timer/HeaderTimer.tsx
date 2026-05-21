@@ -23,6 +23,13 @@ export const HeaderTimer = () => {
   const [started, setStarted] = useStoredJSON<boolean>('timer:started', false)
   const [resetAt, setResetAt] = useStoredJSON<number>('timer:resetAt', 0)
   const [duration] = useStoredJSON<number>('timer:duration', DEFAULT_DURATION_SEC)
+  // See Countdown.tsx: `activeDuration` is the duration the running timer was
+  // started with. Changing the dropdown only updates `timer:duration` (a
+  // preview); it doesn't alter a running timer.
+  const [activeDuration, setActiveDuration] = useStoredJSON<number>(
+    'timer:activeDuration',
+    DEFAULT_DURATION_SEC,
+  )
 
   // Pre-load threshold audios once. Cloned per play to avoid mid-play state.
   const thresholdAudios = useMemo(() => {
@@ -49,8 +56,17 @@ export const HeaderTimer = () => {
       setTrackedKey(timer.lastRequestedTimerStart)
       setResetAt(Date.now())
       setStarted(true)
+      setActiveDuration(duration)
     }
-  }, [timer, trackedKey, setTrackedKey, setResetAt, setStarted])
+  }, [
+    timer,
+    trackedKey,
+    duration,
+    setTrackedKey,
+    setResetAt,
+    setStarted,
+    setActiveDuration,
+  ])
 
   const [now, setNow] = useState(() => Date.now())
   useEffect(() => {
@@ -63,8 +79,8 @@ export const HeaderTimer = () => {
   // below can depend on it. (When stopped, remaining stays at `duration` so
   // no thresholds fire.)
   const elapsed = started ? Math.max(0, Math.floor((now - resetAt) / 1000)) : 0
-  const remaining = Math.max(0, duration - elapsed)
-  const remainingForThresholds = started ? duration - elapsed : duration
+  const remaining = Math.max(0, activeDuration - elapsed)
+  const remainingForThresholds = started ? activeDuration - elapsed : activeDuration
 
   // Fire threshold sounds when `remaining` actually crosses a threshold during
   // the running cycle. This component lives in the root layout so it survives

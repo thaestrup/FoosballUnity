@@ -328,7 +328,7 @@ describe('PlayerDetail — error state', () => {
     )
 
     renderWithProviders(<PlayerDetail name="Lars" />)
-    expect(await screen.findByText(/failed to load games/i)).toBeInTheDocument()
+    expect(await screen.findByText(/couldn't load games/i)).toBeInTheDocument()
   })
 })
 

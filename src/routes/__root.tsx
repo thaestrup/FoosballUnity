@@ -4,6 +4,8 @@ import { useTheme } from '@/lib/useTheme'
 import { SelectedFacepile } from '@/features/players/SelectedFacepile'
 import { HeaderTimer } from '@/features/timer/HeaderTimer'
 import { playersQuery } from '@/features/players/usePlayers'
+import { ErrorNotice } from '@/components/ErrorNotice'
+import { BackendUrlBadge } from '@/components/BackendUrlBadge'
 import styles from './__root.module.css'
 
 const RootComponent = () => {
@@ -48,6 +50,7 @@ const RootComponent = () => {
         </nav>
         <HeaderTimer />
         <SelectedFacepile />
+        <BackendUrlBadge />
         <button
           type="button"
           className={styles.themeToggle}
@@ -69,9 +72,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(playersQuery),
   component: RootComponent,
   pendingComponent: () => <p className={styles.pending}>Loading…</p>,
-  errorComponent: ({ error }) => (
-    <p role="alert" className={styles.error}>
-      Something went wrong: {error.message}
-    </p>
+  errorComponent: ({ error, reset }) => (
+    <div className={styles.errorWrap}>
+      <ErrorNotice
+        title="Couldn't load the app"
+        error={error as Error}
+        onRetry={reset}
+      />
+    </div>
   ),
 })

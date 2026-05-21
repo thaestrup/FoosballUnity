@@ -1,12 +1,18 @@
 import { z } from 'zod'
 
-// Backend sends `null` for wildcard / unfilled slots when player count
-// doesn't divide evenly into 4-per-game (e.g. 15 players, 4 boards).
+// Backend writes the literal string "null" (Groovy concat) for unfilled
+// wildcard slots when the player count doesn't divide evenly into 4-per-game.
+// Normalize at parse time so consumers see actual JS null. Mirrors the
+// playerName transform in features/games/game.ts — same backend quirk, same fix.
+const playerName = z
+  .union([z.string(), z.null()])
+  .transform((s) => (s === 'null' || s === '' ? null : s))
+
 export const TournamentGameSchema = z.object({
-  player_red_1: z.string().nullable(),
-  player_red_2: z.string().nullable(),
-  player_blue_1: z.string().nullable(),
-  player_blue_2: z.string().nullable(),
+  player_red_1: playerName,
+  player_red_2: playerName,
+  player_blue_1: playerName,
+  player_blue_2: playerName,
 })
 
 export const TournamentRoundSchema = z.object({

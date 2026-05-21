@@ -77,7 +77,7 @@ describe('RankingsList — render', () => {
     renderWithProviders(<RankingsList />)
 
     expect(
-      await screen.findByText(/Failed to load rankings/i),
+      await screen.findByText(/Couldn't load rankings/i),
     ).toBeInTheDocument()
   })
 })

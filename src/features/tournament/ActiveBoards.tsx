@@ -20,7 +20,25 @@ type Props = {
   tableNames: string[]
   states: BoardStateMap
   setStates: (next: BoardStateMap | ((prev: BoardStateMap) => BoardStateMap)) => void
+  // When false, 2v1 games (exactly one back-row slot null) are filtered out
+  // before rendering — the user opted out of uneven teams. Defaults to true
+  // so the existing prop-less call sites keep their current behaviour.
+  allowUneven?: boolean
 }
+
+// 1v1: both back-row slots null, both front slots filled. Rendered as a
+// proper 1v1 (no "plays alone" badges, "· 1v1" appended to the label).
+const is1v1Game = (g: TournamentGame) =>
+  g.player_red_2 == null &&
+  g.player_blue_2 == null &&
+  g.player_red_1 != null &&
+  g.player_blue_1 != null
+
+// 2v1: exactly one back-row slot null. Hidden unless the user enabled uneven
+// teams. (Front slots are filled in order by the backend, so the back row
+// is where the gaps land.)
+const is2v1Game = (g: TournamentGame) =>
+  (g.player_red_2 == null) !== (g.player_blue_2 == null)
 
 const DEFAULT_PLAYER_RATING = 1500
 
@@ -41,18 +59,28 @@ const paletteFor = (tableIndex: number): TablePalette => {
   return TABLE_PALETTES[tableIndex % TABLE_PALETTES.length]
 }
 
-export const ActiveBoards = ({ rounds, tableNames, states, setStates }: Props) => {
+export const ActiveBoards = ({
+  rounds,
+  tableNames,
+  states,
+  setStates,
+  allowUneven = true,
+}: Props) => {
   const { data: rankings } = useRankings('alltime')
 
   return (
     <div className={styles.boards}>
       {rounds.map((round, roundIdx) =>
         round.games.map((game, gameIdx) => {
+          if (!allowUneven && is2v1Game(game)) return null
           const key = `${roundIdx}-${gameIdx}`
+          const is1v1 = is1v1Game(game)
+          const baseLabel = tableLabelFor(gameIdx, tableNames)
+          const labelWithMode = is1v1 ? `${baseLabel} · 1v1` : baseLabel
           const tableLabel =
             rounds.length > 1
-              ? `Round ${roundIdx + 1} · ${tableLabelFor(gameIdx, tableNames)}`
-              : tableLabelFor(gameIdx, tableNames)
+              ? `Round ${roundIdx + 1} · ${labelWithMode}`
+              : labelWithMode
 
           return (
             <BoardCard
@@ -64,6 +92,7 @@ export const ActiveBoards = ({ rounds, tableNames, states, setStates }: Props) =
               rankings={rankings}
               state={states[key] ?? { status: 'pending' }}
               setState={(s) => setStates((prev) => ({ ...prev, [key]: s }))}
+              is1v1={is1v1}
             />
           )
         }),
@@ -80,6 +109,7 @@ const BoardCard = ({
   rankings,
   state,
   setState,
+  is1v1,
 }: {
   game: TournamentGame
   tableLabel: string
@@ -88,6 +118,7 @@ const BoardCard = ({
   rankings: RankingItem[] | undefined
   state: BoardState
   setState: (s: BoardState) => void
+  is1v1: boolean
 }) => {
   const reportGame = useReportGame()
 
@@ -149,6 +180,7 @@ const BoardCard = ({
           one={game.player_red_1}
           two={game.player_red_2}
           rankings={rankings}
+          is1v1={is1v1}
         />
         <div className={styles.imageWrap}>
           <img
@@ -167,6 +199,7 @@ const BoardCard = ({
           one={game.player_blue_1}
           two={game.player_blue_2}
           rankings={rankings}
+          is1v1={is1v1}
         />
       </div>
 
@@ -222,14 +255,19 @@ const Team = ({
   one,
   two,
   rankings,
+  is1v1 = false,
 }: {
   color: TableColor
   one: string | null
   two: string | null
   rankings: RankingItem[] | undefined
+  // When the whole match is a 1v1, both teams have exactly one player by
+  // design — we don't show the "plays alone" badge or solo tint, because
+  // neither side is short-handed.
+  is1v1?: boolean
 }) => {
   const names = [one, two].filter((p): p is string => p != null)
-  const isSolo = names.length === 1
+  const isSolo = !is1v1 && names.length === 1
 
   return (
     <div

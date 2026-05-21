@@ -20,6 +20,7 @@ import { winnerSide, type Game } from '@/features/games/game'
 import { formatDbTimestampShort, parseDbTimestamp } from '@/lib/time'
 import { Avatar } from '@/components/Avatar'
 import { PeriodTabs } from '@/components/PeriodTabs'
+import { ErrorNotice } from '@/components/ErrorNotice'
 import styles from './RankingsList.module.css'
 
 const STARTING_POINTS = 1500
@@ -28,7 +29,7 @@ type SeriesRow = { x: string; ts: number } & Record<string, number | string>
 
 export const RankingsList = () => {
   const [period, setPeriod] = useState<Period>('alltime')
-  const { data: rankings, isPending, error } = useRankings(period)
+  const { data: rankings, isPending, error, refetch } = useRankings(period)
   const { data: players } = usePlayers()
   const { data: games } = useGames('alltime')
 
@@ -69,7 +70,7 @@ export const RankingsList = () => {
 
       {isPending && <p className={styles.muted}>Loading rankings…</p>}
       {error && (
-        <p className={styles.error}>Failed to load rankings: {error.message}</p>
+        <ErrorNotice what="rankings" error={error} onRetry={() => void refetch()} />
       )}
       {rankings && rankings.length === 0 && (
         <p className={styles.muted}>

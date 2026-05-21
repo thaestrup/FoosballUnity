@@ -104,7 +104,7 @@ describe('GamesList', () => {
 
       renderWithProviders(<GamesList />)
 
-      expect(await screen.findByText(/Failed to load games/i)).toBeInTheDocument()
+      expect(await screen.findByText(/Couldn't load games/i)).toBeInTheDocument()
     })
 
     it('renders the period buttons with "This week" marked current by default', async () => {

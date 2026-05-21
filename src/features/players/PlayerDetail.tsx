@@ -19,6 +19,7 @@ import {
 } from '@/lib/time'
 import { Avatar } from '@/components/Avatar'
 import { PeriodTabs } from '@/components/PeriodTabs'
+import { ErrorNotice } from '@/components/ErrorNotice'
 import { PERIOD_HOURS, type Period } from '@/lib/period'
 import styles from './PlayerDetail.module.css'
 
@@ -27,7 +28,7 @@ const STARTING_POINTS = 1500
 type Props = { name: string }
 
 export const PlayerDetail = ({ name }: Props) => {
-  const { data: games, isPending, error } = useGamesByPlayer(name)
+  const { data: games, isPending, error, refetch } = useGamesByPlayer(name)
 
   const stats = useMemo(() => computeStats(name, games ?? []), [name, games])
 
@@ -58,7 +59,9 @@ export const PlayerDetail = ({ name }: Props) => {
       <h3 className={styles.subhead}>Recent games</h3>
 
       {isPending && <p className={styles.muted}>Loading…</p>}
-      {error && <p className={styles.error}>Failed to load games: {error.message}</p>}
+      {error && (
+        <ErrorNotice what="games" error={error} onRetry={() => void refetch()} />
+      )}
       {games && games.length === 0 && (
         <p className={styles.muted}>No games recorded for {name}.</p>
       )}

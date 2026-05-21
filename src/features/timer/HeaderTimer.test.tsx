@@ -39,6 +39,7 @@ beforeEach(async () => {
   resetFactoryIds()
   window.sessionStorage.clear()
   await seedStoredJSON('timer:duration', 120)
+  await seedStoredJSON('timer:activeDuration', 120)
   await seedStoredJSON('timer:started', false)
   await seedStoredJSON('timer:resetAt', 0)
   await seedStoredJSON('timer:trackedKey', null)
@@ -62,6 +63,7 @@ describe('HeaderTimer — visibility', () => {
 
   it('renders the link when started=true', async () => {
     await seedStoredJSON('timer:duration', 120)
+    await seedStoredJSON('timer:activeDuration', 120)
     await seedStoredJSON('timer:started', true)
     await seedStoredJSON('timer:resetAt', Date.now() - 30_000)
     await seedStoredJSON('timer:trackedKey', '2026-05-01 12:00:00.0')
@@ -88,6 +90,7 @@ describe('HeaderTimer — phase classes', () => {
     elapsedSec: number
   }) => {
     await seedStoredJSON('timer:duration', opts.duration)
+    await seedStoredJSON('timer:activeDuration', opts.duration)
     await seedStoredJSON('timer:started', true)
     await seedStoredJSON(
       'timer:resetAt',
@@ -144,6 +147,7 @@ describe('HeaderTimer — threshold sounds', () => {
 
     const t0 = Date.now()
     await seedStoredJSON('timer:duration', 120)
+    await seedStoredJSON('timer:activeDuration', 120)
     await seedStoredJSON('timer:started', true)
     await seedStoredJSON('timer:resetAt', t0)
     await seedStoredJSON('timer:trackedKey', '2026-05-01 12:00:00.0')
@@ -221,6 +225,7 @@ describe('HeaderTimer — threshold sounds', () => {
 describe('HeaderTimer — snapshot', () => {
   it('matches snapshot when running with > 60s remaining', async () => {
     await seedStoredJSON('timer:duration', 120)
+    await seedStoredJSON('timer:activeDuration', 120)
     await seedStoredJSON('timer:started', true)
     await seedStoredJSON('timer:resetAt', Date.now() - 30_000)
     await seedStoredJSON('timer:trackedKey', '2026-05-01 12:00:00.0')

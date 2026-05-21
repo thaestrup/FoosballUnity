@@ -9,13 +9,14 @@ import { AddPlayerForm } from './AddPlayerForm'
 import { Avatar } from '@/components/Avatar'
 import { Fab } from '@/components/Fab'
 import { Dialog } from '@/components/Dialog'
+import { ErrorNotice } from '@/components/ErrorNotice'
 import styles from './PlayersList.module.css'
 
 const HIGHLIGHT_MS = 2000
 const ACTIVE_WINDOW_MS = 30 * 24 * 60 * 60 * 1000 // 30 days
 
 export const PlayersList = () => {
-  const { data: players, isPending, error } = usePlayers()
+  const { data: players, isPending, error, refetch } = usePlayers()
   const { data: lastPlayed } = useLastPlayed()
   const toggle = useTogglePlayerReady()
   const setAll = useSetAllPlayersReady()
@@ -44,7 +45,10 @@ export const PlayersList = () => {
   }, [players])
 
   if (isPending) return <p>Loading players…</p>
-  if (error) return <p className={styles.error}>Failed to load players: {error.message}</p>
+  if (error)
+    return (
+      <ErrorNotice what="players" error={error} onRetry={() => void refetch()} />
+    )
 
   const selectedCount = players.filter((p) => p.playerReady).length
 

@@ -63,7 +63,7 @@ describe('PlayersList — render', () => {
       http.get(`${BASE}/players/`, () => HttpResponse.text('boom', { status: 500 })),
     )
     renderWithProviders(<PlayersList />)
-    expect(await screen.findByText(/failed to load players/i)).toBeInTheDocument()
+    expect(await screen.findByText(/couldn't load players/i)).toBeInTheDocument()
   })
 })
 
