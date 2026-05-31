@@ -49,7 +49,7 @@ exports[`ActiveBoards — snapshots > matches snapshot for a board with a fully-
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/c.jpg"
+              src="http://localhost:5050/players/C/photo?v=0"
             />
             <span
               class="playerName"
@@ -70,7 +70,7 @@ exports[`ActiveBoards — snapshots > matches snapshot for a board with a fully-
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/d.jpg"
+              src="http://localhost:5050/players/D/photo?v=0"
             />
             <span
               class="playerName"
@@ -120,7 +120,7 @@ exports[`ActiveBoards — snapshots > matches snapshot for a board with one solo
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/solo.jpg"
+              src="http://localhost:5050/players/Solo/photo?v=0"
             />
             <span
               class="playerName"
@@ -169,7 +169,7 @@ exports[`ActiveBoards — snapshots > matches snapshot for a board with one solo
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/c.jpg"
+              src="http://localhost:5050/players/C/photo?v=0"
             />
             <span
               class="playerName"
@@ -190,7 +190,7 @@ exports[`ActiveBoards — snapshots > matches snapshot for a board with one solo
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/d.jpg"
+              src="http://localhost:5050/players/D/photo?v=0"
             />
             <span
               class="playerName"
@@ -286,7 +286,7 @@ exports[`ActiveBoards — snapshots > matches snapshot for a fully-staffed singl
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/a.jpg"
+              src="http://localhost:5050/players/A/photo?v=0"
             />
             <span
               class="playerName"
@@ -307,7 +307,7 @@ exports[`ActiveBoards — snapshots > matches snapshot for a fully-staffed singl
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/b.jpg"
+              src="http://localhost:5050/players/B/photo?v=0"
             />
             <span
               class="playerName"
@@ -351,7 +351,7 @@ exports[`ActiveBoards — snapshots > matches snapshot for a fully-staffed singl
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/c.jpg"
+              src="http://localhost:5050/players/C/photo?v=0"
             />
             <span
               class="playerName"
@@ -372,7 +372,7 @@ exports[`ActiveBoards — snapshots > matches snapshot for a fully-staffed singl
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/d.jpg"
+              src="http://localhost:5050/players/D/photo?v=0"
             />
             <span
               class="playerName"

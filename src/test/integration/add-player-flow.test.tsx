@@ -80,8 +80,11 @@ describe('integration: add player flow', () => {
       expect(screen.getByLabelText(/2 players ready/i)).toBeInTheDocument()
     })
 
-    // And specifically Newbie's avatar should be in the facepile.
+    // And specifically Newbie's avatar should be in the facepile. The
+    // backend photo URL is cache-busted with ?v=N so do a contains match.
     const facepile = screen.getByLabelText(/2 players ready/i)
-    expect(facepile.querySelector('img[src="/img/newbie.jpg"]')).not.toBeNull()
+    expect(
+      facepile.querySelector('img[src*="/players/Newbie/photo"]'),
+    ).not.toBeNull()
   })
 })

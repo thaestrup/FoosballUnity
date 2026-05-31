@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useEffect, useId, useRef, type ReactNode } from 'react'
 import styles from './Dialog.module.css'
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
 
 export const Dialog = ({ open, onClose, title, children }: Props) => {
   const ref = useRef<HTMLDialogElement>(null)
+  const titleId = useId()
 
   useEffect(() => {
     const dialog = ref.current
@@ -37,10 +38,15 @@ export const Dialog = ({ open, onClose, title, children }: Props) => {
       className={styles.dialog}
       onClose={onClose}
       onClick={handleClick}
+      aria-labelledby={title ? titleId : undefined}
     >
       <div className={styles.content}>
         <header className={styles.header}>
-          {title && <h2 className={styles.title}>{title}</h2>}
+          {title && (
+            <h2 id={titleId} className={styles.title}>
+              {title}
+            </h2>
+          )}
           <button
             type="button"
             onClick={onClose}

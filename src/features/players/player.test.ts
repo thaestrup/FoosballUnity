@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import { makePlayer } from '@/test/factories'
-import { avatarUrl, FALLBACK_AVATAR } from '@/lib/avatar'
 import {
   LastPlayedSchema,
   PlayerListSchema,
@@ -85,32 +84,3 @@ describe('LastPlayedSchema', () => {
   })
 })
 
-describe('avatarUrl', () => {
-  it('lowercases the name', () => {
-    expect(avatarUrl('Lars')).toBe('/img/lars.jpg')
-  })
-
-  it('replaces spaces with dashes', () => {
-    expect(avatarUrl('John Doe')).toBe('/img/john-doe.jpg')
-  })
-
-  it('collapses runs of whitespace', () => {
-    expect(avatarUrl('John   Foo  Bar')).toBe('/img/john-foo-bar.jpg')
-  })
-
-  it('handles tabs and newlines as whitespace', () => {
-    expect(avatarUrl('John\tDoe')).toBe('/img/john-doe.jpg')
-  })
-
-  it('lowercases mixed case names', () => {
-    expect(avatarUrl('JOHN DOE')).toBe('/img/john-doe.jpg')
-  })
-
-  it('returns a path even for empty input', () => {
-    expect(avatarUrl('')).toBe('/img/.jpg')
-  })
-
-  it('exports the fallback avatar constant', () => {
-    expect(FALLBACK_AVATAR).toBe('/img/Wildcard.jpg')
-  })
-})

@@ -326,9 +326,12 @@ describe('PlayersList — FAB → Dialog → AddPlayerForm flow', () => {
       expect(scrollSpy).toHaveBeenCalled()
     })
 
-    // The highlighted card uses the .highlight class.
+    // The highlighted card uses the .highlight class. The li now also
+    // contains a per-card Edit button, so scope to the toggle button by
+    // its aria-pressed attribute.
     const li = newCard.closest('li')!
-    expect(within(li).getByRole('button')).toHaveClass('highlight')
+    const toggleBtn = within(li).getByRole('button', { pressed: true })
+    expect(toggleBtn).toHaveClass('highlight')
   })
 })
 

@@ -2,6 +2,7 @@
 
 exports[`Dialog — snapshot > matches snapshot when open with title and body 1`] = `
 <dialog
+  aria-labelledby="_r_8_"
   class="dialog"
   open=""
 >
@@ -13,6 +14,7 @@ exports[`Dialog — snapshot > matches snapshot when open with title and body 1`
     >
       <h2
         class="title"
+        id="_r_8_"
       >
         Demo
       </h2>

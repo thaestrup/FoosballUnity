@@ -1,6 +1,7 @@
 import { useReportGame } from '@/features/games/useGames'
 import { useRankings } from '@/features/rankings/useRankings'
 import type { RankingItem } from '@/features/rankings/ranking'
+import { calculateStakes, teamTotal } from '@/features/rankings/stakes'
 import { Avatar } from '@/components/Avatar'
 import type { TournamentGame, TournamentRound } from './tournament'
 import styles from './ActiveBoards.module.css'
@@ -39,8 +40,6 @@ const is1v1Game = (g: TournamentGame) =>
 // is where the gaps land.)
 const is2v1Game = (g: TournamentGame) =>
   (g.player_red_2 == null) !== (g.player_blue_2 == null)
-
-const DEFAULT_PLAYER_RATING = 1500
 
 type TableColor = { name: string; hex: string }
 type TablePalette = { red: TableColor; blue: TableColor }
@@ -308,46 +307,8 @@ const tableLabelFor = (index: number, tableNames: string[]): string => {
   return tableNames[index] ?? `Table ${index + 1}`
 }
 
-const getPlayerPoints = (
-  rankings: RankingItem[] | undefined,
-  name: string | null,
-): number => {
-  if (!name) return 0
-  return rankings?.find((r) => r.name === name)?.points ?? DEFAULT_PLAYER_RATING
-}
-
 const formatPosition = (rankings: RankingItem[] | undefined, name: string): string => {
   const item = rankings?.find((r) => r.name === name)
   if (!item) return 'unranked'
   return `#${item.position}`
-}
-
-const teamTotal = (
-  rankings: RankingItem[] | undefined,
-  p1: string | null,
-  p2: string | null,
-): number => {
-  return getPlayerPoints(rankings, p1) + getPlayerPoints(rankings, p2)
-}
-
-// ELO-style stakes ported from the original Angular UI
-// (`games-overview.component.ts`). Each side has a *different* potential
-// reward: a low-rated team beating a high-rated team gets a bigger share of
-// the K factor, and the inverse for the favored team. A tie awards no
-// points (handled at the call site by sending 0).
-const calculateStakes = (redTotal: number, blueTotal: number) => {
-  const K = 50
-  const redDiff = blueTotal - redTotal
-  const redWe = 1 / (Math.pow(10, redDiff / 1000) + 1)
-  const blueWe = 1 - redWe
-  let redWin = Math.floor(K * (1 - redWe))
-  let blueWin = Math.floor(K * (1 - blueWe))
-  // The two parseInt-truncations in the old code can shave 1-2 points off the
-  // K total. Bump the smaller-but-not-tiny side back up so the pair still
-  // sums to K. Mirrors the old guard.
-  if (redWin + blueWin < K) {
-    if (blueWin < redWin) blueWin = K - redWin
-    else redWin = K - blueWin
-  }
-  return { redWin, blueWin }
 }

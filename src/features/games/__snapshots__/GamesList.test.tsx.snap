@@ -2,7 +2,7 @@
 
 exports[`GamesList > snapshots > GameCard loss outcome snapshot (blue wins) 1`] = `
 <article
-  class="card"
+  class="card "
 >
   <header
     class="cardHeader"
@@ -24,6 +24,22 @@ exports[`GamesList > snapshots > GameCard loss outcome snapshot (blue wins) 1`] 
       10
        pts
     </span>
+    <div
+      class="rowActions"
+    >
+      <button
+        class="rowButton"
+        type="button"
+      >
+        Edit
+      </button>
+      <button
+        class="rowButton danger"
+        type="button"
+      >
+        Delete
+      </button>
+    </div>
   </header>
   <div
     class="match"
@@ -36,14 +52,14 @@ exports[`GamesList > snapshots > GameCard loss outcome snapshot (blue wins) 1`] 
         class="avatar"
         decoding="async"
         loading="lazy"
-        src="/img/lars.jpg"
+        src="http://localhost:5050/players/Lars/photo?v=0"
       />
       <img
         alt=""
         class="avatar"
         decoding="async"
         loading="lazy"
-        src="/img/joan.jpg"
+        src="http://localhost:5050/players/Joan/photo?v=0"
       />
       <span
         class="teamLabel"
@@ -70,14 +86,14 @@ exports[`GamesList > snapshots > GameCard loss outcome snapshot (blue wins) 1`] 
         class="avatar"
         decoding="async"
         loading="lazy"
-        src="/img/frank.jpg"
+        src="http://localhost:5050/players/Frank/photo?v=0"
       />
       <img
         alt=""
         class="avatar"
         decoding="async"
         loading="lazy"
-        src="/img/daniel.jpg"
+        src="http://localhost:5050/players/Daniel/photo?v=0"
       />
       <span
         class="teamLabel"
@@ -96,7 +112,7 @@ exports[`GamesList > snapshots > GameCard loss outcome snapshot (blue wins) 1`] 
 
 exports[`GamesList > snapshots > GameCard tie outcome snapshot 1`] = `
 <article
-  class="card"
+  class="card "
 >
   <header
     class="cardHeader"
@@ -118,6 +134,22 @@ exports[`GamesList > snapshots > GameCard tie outcome snapshot 1`] = `
       10
        pts
     </span>
+    <div
+      class="rowActions"
+    >
+      <button
+        class="rowButton"
+        type="button"
+      >
+        Edit
+      </button>
+      <button
+        class="rowButton danger"
+        type="button"
+      >
+        Delete
+      </button>
+    </div>
   </header>
   <div
     class="match"
@@ -130,14 +162,14 @@ exports[`GamesList > snapshots > GameCard tie outcome snapshot 1`] = `
         class="avatar"
         decoding="async"
         loading="lazy"
-        src="/img/lars.jpg"
+        src="http://localhost:5050/players/Lars/photo?v=0"
       />
       <img
         alt=""
         class="avatar"
         decoding="async"
         loading="lazy"
-        src="/img/joan.jpg"
+        src="http://localhost:5050/players/Joan/photo?v=0"
       />
       <span
         class="teamLabel"
@@ -164,14 +196,14 @@ exports[`GamesList > snapshots > GameCard tie outcome snapshot 1`] = `
         class="avatar"
         decoding="async"
         loading="lazy"
-        src="/img/frank.jpg"
+        src="http://localhost:5050/players/Frank/photo?v=0"
       />
       <img
         alt=""
         class="avatar"
         decoding="async"
         loading="lazy"
-        src="/img/daniel.jpg"
+        src="http://localhost:5050/players/Daniel/photo?v=0"
       />
       <span
         class="teamLabel"
@@ -190,7 +222,7 @@ exports[`GamesList > snapshots > GameCard tie outcome snapshot 1`] = `
 
 exports[`GamesList > snapshots > GameCard win outcome snapshot 1`] = `
 <article
-  class="card"
+  class="card "
 >
   <header
     class="cardHeader"
@@ -212,6 +244,22 @@ exports[`GamesList > snapshots > GameCard win outcome snapshot 1`] = `
       10
        pts
     </span>
+    <div
+      class="rowActions"
+    >
+      <button
+        class="rowButton"
+        type="button"
+      >
+        Edit
+      </button>
+      <button
+        class="rowButton danger"
+        type="button"
+      >
+        Delete
+      </button>
+    </div>
   </header>
   <div
     class="match"
@@ -224,14 +272,14 @@ exports[`GamesList > snapshots > GameCard win outcome snapshot 1`] = `
         class="avatar"
         decoding="async"
         loading="lazy"
-        src="/img/lars.jpg"
+        src="http://localhost:5050/players/Lars/photo?v=0"
       />
       <img
         alt=""
         class="avatar"
         decoding="async"
         loading="lazy"
-        src="/img/joan.jpg"
+        src="http://localhost:5050/players/Joan/photo?v=0"
       />
       <span
         class="teamLabel"
@@ -258,14 +306,124 @@ exports[`GamesList > snapshots > GameCard win outcome snapshot 1`] = `
         class="avatar"
         decoding="async"
         loading="lazy"
-        src="/img/frank.jpg"
+        src="http://localhost:5050/players/Frank/photo?v=0"
       />
       <img
         alt=""
         class="avatar"
         decoding="async"
         loading="lazy"
-        src="/img/daniel.jpg"
+        src="http://localhost:5050/players/Daniel/photo?v=0"
+      />
+      <span
+        class="teamLabel"
+      >
+        Frank & Daniel
+      </span>
+      <span
+        class="outcomeBadge"
+      >
+        Lost
+      </span>
+    </div>
+  </div>
+</article>
+`;
+
+exports[`GamesList > snapshots > GameCard with row actions snapshot (edit + delete buttons) 1`] = `
+<article
+  class="card "
+>
+  <header
+    class="cardHeader"
+  >
+    <span
+      class="gameId"
+    >
+      #
+      4
+    </span>
+    <time
+      class="timestamp"
+    >
+      STABLE_TIMESTAMP
+    </time>
+    <span
+      class="points"
+    >
+      25
+       pts
+    </span>
+    <div
+      class="rowActions"
+    >
+      <button
+        class="rowButton"
+        type="button"
+      >
+        Edit
+      </button>
+      <button
+        class="rowButton danger"
+        type="button"
+      >
+        Delete
+      </button>
+    </div>
+  </header>
+  <div
+    class="match"
+  >
+    <div
+      class="team team_red outcome_win"
+    >
+      <img
+        alt=""
+        class="avatar"
+        decoding="async"
+        loading="lazy"
+        src="http://localhost:5050/players/Lars/photo?v=0"
+      />
+      <img
+        alt=""
+        class="avatar"
+        decoding="async"
+        loading="lazy"
+        src="http://localhost:5050/players/Joan/photo?v=0"
+      />
+      <span
+        class="teamLabel"
+      >
+        Lars & Joan
+      </span>
+      <span
+        class="outcomeBadge"
+      >
+        Won
+      </span>
+    </div>
+    <span
+      aria-hidden="true"
+      class="versus"
+    >
+      vs
+    </span>
+    <div
+      class="team team_blue outcome_loss"
+    >
+      <img
+        alt=""
+        class="avatar"
+        decoding="async"
+        loading="lazy"
+        src="http://localhost:5050/players/Frank/photo?v=0"
+      />
+      <img
+        alt=""
+        class="avatar"
+        decoding="async"
+        loading="lazy"
+        src="http://localhost:5050/players/Daniel/photo?v=0"
       />
       <span
         class="teamLabel"
@@ -347,6 +505,7 @@ exports[`GamesList > snapshots > matches snapshot when empty 1`] = `
       +
     </button>
     <dialog
+      aria-labelledby="_r_1v_"
       class="dialog"
     >
       <div
@@ -357,6 +516,7 @@ exports[`GamesList > snapshots > matches snapshot when empty 1`] = `
         >
           <h2
             class="title"
+            id="_r_1v_"
           >
             Report game
           </h2>
@@ -604,6 +764,64 @@ exports[`GamesList > snapshots > matches snapshot when empty 1`] = `
         </div>
       </div>
     </dialog>
+    <dialog
+      aria-labelledby="_r_20_"
+      class="dialog"
+    >
+      <div
+        class="content"
+      >
+        <header
+          class="header"
+        >
+          <h2
+            class="title"
+            id="_r_20_"
+          >
+            Edit game
+          </h2>
+          <button
+            aria-label="Close"
+            class="close"
+            type="button"
+          >
+            ×
+          </button>
+        </header>
+        <div
+          class="body"
+        />
+      </div>
+    </dialog>
+    <dialog
+      aria-labelledby="_r_21_"
+      class="dialog"
+    >
+      <div
+        class="content"
+      >
+        <header
+          class="header"
+        >
+          <h2
+            class="title"
+            id="_r_21_"
+          >
+            Delete game
+          </h2>
+          <button
+            aria-label="Close"
+            class="close"
+            type="button"
+          >
+            ×
+          </button>
+        </header>
+        <div
+          class="body"
+        />
+      </div>
+    </dialog>
   </div>
 </div>
 `;
@@ -663,7 +881,7 @@ exports[`GamesList > snapshots > matches snapshot with games 1`] = `
     >
       <li>
         <article
-          class="card"
+          class="card "
         >
           <header
             class="cardHeader"
@@ -685,6 +903,22 @@ exports[`GamesList > snapshots > matches snapshot with games 1`] = `
               25
                pts
             </span>
+            <div
+              class="rowActions"
+            >
+              <button
+                class="rowButton"
+                type="button"
+              >
+                Edit
+              </button>
+              <button
+                class="rowButton danger"
+                type="button"
+              >
+                Delete
+              </button>
+            </div>
           </header>
           <div
             class="match"
@@ -697,14 +931,14 @@ exports[`GamesList > snapshots > matches snapshot with games 1`] = `
                 class="avatar"
                 decoding="async"
                 loading="lazy"
-                src="/img/lars.jpg"
+                src="http://localhost:5050/players/Lars/photo?v=0"
               />
               <img
                 alt=""
                 class="avatar"
                 decoding="async"
                 loading="lazy"
-                src="/img/joan.jpg"
+                src="http://localhost:5050/players/Joan/photo?v=0"
               />
               <span
                 class="teamLabel"
@@ -731,14 +965,14 @@ exports[`GamesList > snapshots > matches snapshot with games 1`] = `
                 class="avatar"
                 decoding="async"
                 loading="lazy"
-                src="/img/frank.jpg"
+                src="http://localhost:5050/players/Frank/photo?v=0"
               />
               <img
                 alt=""
                 class="avatar"
                 decoding="async"
                 loading="lazy"
-                src="/img/daniel.jpg"
+                src="http://localhost:5050/players/Daniel/photo?v=0"
               />
               <span
                 class="teamLabel"
@@ -764,6 +998,7 @@ exports[`GamesList > snapshots > matches snapshot with games 1`] = `
       +
     </button>
     <dialog
+      aria-labelledby="_r_1s_"
       class="dialog"
     >
       <div
@@ -774,6 +1009,7 @@ exports[`GamesList > snapshots > matches snapshot with games 1`] = `
         >
           <h2
             class="title"
+            id="_r_1s_"
           >
             Report game
           </h2>
@@ -1019,6 +1255,64 @@ exports[`GamesList > snapshots > matches snapshot with games 1`] = `
             </div>
           </form>
         </div>
+      </div>
+    </dialog>
+    <dialog
+      aria-labelledby="_r_1t_"
+      class="dialog"
+    >
+      <div
+        class="content"
+      >
+        <header
+          class="header"
+        >
+          <h2
+            class="title"
+            id="_r_1t_"
+          >
+            Edit game
+          </h2>
+          <button
+            aria-label="Close"
+            class="close"
+            type="button"
+          >
+            ×
+          </button>
+        </header>
+        <div
+          class="body"
+        />
+      </div>
+    </dialog>
+    <dialog
+      aria-labelledby="_r_1u_"
+      class="dialog"
+    >
+      <div
+        class="content"
+      >
+        <header
+          class="header"
+        >
+          <h2
+            class="title"
+            id="_r_1u_"
+          >
+            Delete game
+          </h2>
+          <button
+            aria-label="Close"
+            class="close"
+            type="button"
+          >
+            ×
+          </button>
+        </header>
+        <div
+          class="body"
+        />
       </div>
     </dialog>
   </div>

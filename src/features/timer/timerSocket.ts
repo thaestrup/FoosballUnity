@@ -11,14 +11,14 @@ const RECONNECT_JITTER_MS = 250
 const POLL_MS = 1_000
 
 // Drives the timer query cache from a server-pushed WebSocket. If the WS
-// can't open within GRACE_MS, falls back to the legacy 1 Hz polling so the
+// can't open within GRACE_MS, falls back to 1 Hz HTTP polling so the
 // timer keeps working on networks that block WS upgrades silently.
 //
 // Mount once at the root (see TimerSubscription in routes/__root.tsx).
-// Consumers (HeaderTimer, Countdown) keep using useTimer() and read from
-// the same query cache — they don't care whether updates arrived via push
-// or poll. Re-keys on backend URL changes so the BackendUrlBadge editor
-// re-opens the socket against the new host.
+// Consumers (HeaderTimer, Countdown) read from the same query cache via
+// useTimer() — they don't care whether updates arrived via push or poll.
+// Re-keys on backend URL changes so the BackendUrlBadge editor re-opens
+// the socket against the new host.
 export const useTimerSocket = () => {
   const { url: backendUrl } = useBackendUrl()
   const qc = useQueryClient()

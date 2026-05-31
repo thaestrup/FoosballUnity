@@ -1,0 +1,92 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.cropArea {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+@media (min-width: 600px) {
+  .cropArea {
+    height: 380px;
+  }
+}
+
+.zoomRow {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.zoomLabel {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  min-width: 3rem;
+}
+
+.zoomInput {
+  flex: 1;
+  accent-color: var(--accent);
+}
+
+.error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--error);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.primary,
+.secondary {
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid;
+}
+
+.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+
+.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.secondary {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.secondary:hover:not(:disabled) {
+  border-color: var(--text);
+}
+
+.secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -37,6 +37,11 @@ export const handlers = [
     HttpResponse.text('deletePlayer: X, result: 1'),
   ),
 
+  // GET /players/:name/photo — Avatar renders this for every player on
+  // mount. Default to 404 (no photo) so the silhouette fallback path is
+  // the test-baseline; individual tests can override with binary data.
+  http.get(`${BASE}/players/:name/photo`, () => new HttpResponse(null, { status: 404 })),
+
   // GET /games/{period|name}
   http.get(`${BASE}/games/:idOrPeriod`, () => HttpResponse.json([makeGame()])),
 

@@ -39,9 +39,11 @@ describe('PlayerDetail — header', () => {
     const backLink = screen.getByRole('link', { name: /all players/i })
     expect(backLink).toHaveAttribute('href', '/players')
 
-    // Avatar img derived from player.ts avatarUrl.
+    // Avatar img comes from the backend photo endpoint, cache-busted.
     const imgs = document.querySelectorAll('img')
-    expect(imgs[0]).toHaveAttribute('src', '/img/lars.jpg')
+    expect(imgs[0].getAttribute('src')).toMatch(
+      /\/players\/Lars\/photo\?v=\d+$/,
+    )
   })
 })
 

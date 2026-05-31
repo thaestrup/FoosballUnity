@@ -1,0 +1,188 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: min(420px, 80vw);
+}
+
+.photoBlock {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.photoPreview {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-soft);
+  flex-shrink: 0;
+}
+
+.previewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  color: var(--text-muted);
+}
+
+.photoActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.fileInput {
+  display: none;
+}
+
+.helpText {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.fieldLabel {
+  font-size: 0.8125rem;
+  color: var(--text);
+}
+
+.input {
+  font: inherit;
+  font-size: 0.9375rem;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--error);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.primary,
+.secondary {
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid;
+}
+
+.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+
+.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.secondary {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.secondary:hover:not(:disabled) {
+  border-color: var(--text);
+}
+
+.secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dangerZone {
+  margin-top: 0.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.dangerLink {
+  font: inherit;
+  font-size: 0.8125rem;
+  background: none;
+  border: none;
+  color: var(--error);
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.dangerLink:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.dangerLink:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.confirmRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.confirmText {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--text);
+  min-width: 0;
+}
+
+.danger {
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--error);
+  background: var(--error);
+  color: #fff;
+}
+
+.danger:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

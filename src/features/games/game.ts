@@ -31,9 +31,8 @@ export const ReportGameResponseSchema = z.object({
   newGameIDs: z.array(z.string()),
 })
 
-// Re-exported from `@/lib/period` so existing `import { Period } from
-// './game'` paths keep working. Prefer importing from `@/lib/period`
-// directly in new code.
+// Period is canonically exported from @/lib/period. Re-export for callers
+// that already pull other types from this module.
 export type { Period } from '@/lib/period'
 
 export type Side = 'red' | 'blue' | 'tie' | 'unknown'

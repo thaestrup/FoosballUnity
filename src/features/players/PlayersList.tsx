@@ -6,10 +6,12 @@ import {
   useTogglePlayerReady,
 } from './usePlayers'
 import { AddPlayerForm } from './AddPlayerForm'
+import { EditPlayerDialog } from './EditPlayerDialog'
 import { Avatar } from '@/components/Avatar'
 import { Fab } from '@/components/Fab'
 import { Dialog } from '@/components/Dialog'
 import { ErrorNotice } from '@/components/ErrorNotice'
+import type { Player } from './player'
 import styles from './PlayersList.module.css'
 
 const HIGHLIGHT_MS = 2000
@@ -24,6 +26,7 @@ export const PlayersList = () => {
   const [highlightedName, setHighlightedName] = useState<string | null>(null)
   const highlightRef = useRef<HTMLLIElement | null>(null)
   const [addOpen, setAddOpen] = useState(false)
+  const [editingPlayer, setEditingPlayer] = useState<Player | null>(null)
 
   // Clear the highlight after the flash plays out so a future add can re-trigger it.
   useEffect(() => {
@@ -85,7 +88,11 @@ export const PlayersList = () => {
           const isRecentlyActive =
             ts != null && Date.now() - ts < ACTIVE_WINDOW_MS
           return (
-            <li key={p.name} ref={isHighlighted ? highlightRef : null}>
+            <li
+              key={p.name}
+              ref={isHighlighted ? highlightRef : null}
+              className={styles.cardWrapper}
+            >
               <button
                 type="button"
                 className={cn(
@@ -111,6 +118,15 @@ export const PlayersList = () => {
                   </span>
                 )}
               </button>
+              <button
+                type="button"
+                className={styles.editBtn}
+                onClick={() => setEditingPlayer(p)}
+                aria-label={`Edit ${p.name}`}
+                title={`Edit ${p.name}`}
+              >
+                ✎
+              </button>
             </li>
           )
         })}
@@ -125,6 +141,26 @@ export const PlayersList = () => {
             setHighlightedName(name)
           }}
         />
+      </Dialog>
+
+      <Dialog
+        open={editingPlayer !== null}
+        onClose={() => setEditingPlayer(null)}
+        title="Edit player"
+      >
+        {editingPlayer && (
+          <EditPlayerDialog
+            player={editingPlayer}
+            onClose={() => setEditingPlayer(null)}
+            onSaved={(newName) => {
+              // If the name changed, focus + highlight the renamed card
+              // on its new position so the user can see where it landed.
+              if (newName !== editingPlayer.name) {
+                setHighlightedName(newName)
+              }
+            }}
+          />
+        )}
       </Dialog>
     </div>
   )

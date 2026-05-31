@@ -16,14 +16,14 @@ exports[`SelectedFacepile — snapshot > matches snapshot with two selected play
       class="face"
       decoding="async"
       loading="lazy"
-      src="/img/lars.jpg"
+      src="http://localhost:5050/players/Lars/photo?v=0"
     />
     <img
       alt=""
       class="face"
       decoding="async"
       loading="lazy"
-      src="/img/joan.jpg"
+      src="http://localhost:5050/players/Joan/photo?v=0"
     />
   </span>
   <span

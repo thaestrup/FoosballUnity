@@ -25,8 +25,9 @@ export const useResetTimer = () => {
     mutationFn: () => api('/timer', { method: 'POST' }),
     onSuccess: () => {
       // The backend also broadcasts on POST so the WS path normally
-      // refreshes the cache without this. Kept as a fallback in case the
-      // frame is dropped (transient WS hiccup mid-reset).
+      // refreshes the cache on its own. Belt-and-suspenders fallback in
+      // case the broadcast frame is dropped (transient WS hiccup
+      // mid-reset).
       void qc.invalidateQueries({ queryKey: timerQuery.queryKey })
     },
   })

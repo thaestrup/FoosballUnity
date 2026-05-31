@@ -96,7 +96,7 @@ exports[`route / (HomePage → Dashboard) snapshot > matches snapshot with pre-s
             class="podiumAvatar"
             decoding="async"
             loading="lazy"
-            src="/img/joan.jpg"
+            src="http://localhost:5050/players/Joan/photo?v=0"
           />
           <span
             class="podiumName"
@@ -123,7 +123,7 @@ exports[`route / (HomePage → Dashboard) snapshot > matches snapshot with pre-s
             class="podiumAvatar"
             decoding="async"
             loading="lazy"
-            src="/img/lars.jpg"
+            src="http://localhost:5050/players/Lars/photo?v=0"
           />
           <span
             class="podiumName"
@@ -150,7 +150,7 @@ exports[`route / (HomePage → Dashboard) snapshot > matches snapshot with pre-s
             class="podiumAvatar"
             decoding="async"
             loading="lazy"
-            src="/img/frank.jpg"
+            src="http://localhost:5050/players/Frank/photo?v=0"
           />
           <span
             class="podiumName"

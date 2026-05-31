@@ -12,7 +12,7 @@ exports[`route /player/$name (PlayerDetail) snapshot > matches snapshot for a pl
       class="avatar"
       decoding="async"
       loading="lazy"
-      src="/img/lars.jpg"
+      src="http://localhost:5050/players/Lars/photo?v=0"
     />
     <div
       class="titleBlock"

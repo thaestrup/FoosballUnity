@@ -578,6 +578,30 @@ describe('GamesList', () => {
       expect(card).toMatchSnapshot()
     })
 
+    it('GameCard with row actions snapshot (edit + delete buttons)', async () => {
+      server.use(
+        http.get(`${BASE}/games/week`, () =>
+          HttpResponse.json([
+            makeGame({
+              id: 4,
+              player_red_1: 'Lars',
+              player_red_2: 'Joan',
+              player_blue_1: 'Frank',
+              player_blue_2: 'Daniel',
+              match_winner: 'red',
+              lastUpdated: '2026-05-01 12:00:00.0',
+              points_at_stake: 25,
+            }),
+          ]),
+        ),
+      )
+      renderWithProviders(<GamesList />)
+      const card = (await screen.findByText('#4')).closest('article')!
+      const time = card.querySelector('time')
+      if (time) time.textContent = 'STABLE_TIMESTAMP'
+      expect(card).toMatchSnapshot()
+    })
+
     it('GameCard tie outcome snapshot', async () => {
       server.use(
         http.get(`${BASE}/games/week`, () =>
@@ -600,6 +624,211 @@ describe('GamesList', () => {
       const time = card.querySelector('time')
       if (time) time.textContent = 'STABLE_TIMESTAMP'
       expect(card).toMatchSnapshot()
+    })
+  })
+
+  describe('per-row edit + delete', () => {
+    const seedSingleGame = () => {
+      server.use(
+        http.get(`${BASE}/games/week`, () =>
+          HttpResponse.json([
+            makeGame({
+              id: 42,
+              player_red_1: 'Lars',
+              player_red_2: 'Joan',
+              player_blue_1: 'Frank',
+              player_blue_2: 'Daniel',
+              match_winner: 'red',
+              points_at_stake: 17,
+              winning_table: 1,
+            }),
+          ]),
+        ),
+      )
+    }
+
+    it('Edit opens a modal pre-populated with the row values', async () => {
+      seedSingleGame()
+      withFourReadyPlayers()
+      const user = userEvent.setup()
+      renderWithProviders(<GamesList />)
+
+      const card = (await screen.findByText('#42')).closest('article')!
+      await user.click(within(card).getByRole('button', { name: /^edit$/i }))
+
+      // Editor pre-selects the current winner and pre-fills points.
+      // winning_table is intentionally NOT exposed in the edit form.
+      const dialog = await screen.findByRole('dialog')
+      const redRadio = within(dialog).getByRole('radio', { name: /^red/i }) as HTMLInputElement
+      expect(redRadio.checked).toBe(true)
+      const pointsInput = within(dialog).getByLabelText(
+        /points at stake/i,
+      ) as HTMLInputElement
+      expect(pointsInput.value).toBe('17')
+      expect(
+        within(dialog).queryByLabelText(/winning table/i),
+      ).not.toBeInTheDocument()
+    })
+
+    it('preserves the original winning_table when saving an edit', async () => {
+      seedSingleGame()
+      withFourReadyPlayers()
+      let captured: Record<string, unknown> | null = null
+      server.use(
+        http.put(`${BASE}/games/:id`, async ({ request }) => {
+          captured = (await request.json()) as Record<string, unknown>
+          return HttpResponse.json(
+            makeGame({
+              id: 42,
+              player_red_1: 'Lars',
+              player_red_2: 'Joan',
+              player_blue_1: 'Frank',
+              player_blue_2: 'Daniel',
+              match_winner: 'blue',
+              points_at_stake: 17,
+              winning_table: 1,
+            }),
+          )
+        }),
+      )
+
+      const user = userEvent.setup()
+      renderWithProviders(<GamesList />)
+
+      const card = (await screen.findByText('#42')).closest('article')!
+      await user.click(within(card).getByRole('button', { name: /^edit$/i }))
+      const dialog = await screen.findByRole('dialog')
+      await user.click(within(dialog).getByRole('radio', { name: /^blue/i }))
+      await user.click(within(dialog).getByRole('button', { name: /^save$/i }))
+
+      await screen.findByText(/updated game #42/i)
+      expect(captured).not.toBeNull()
+      expect(captured!.winning_table).toBe(1)
+    })
+
+    it('PUTs the updated game on Save and shows a confirmation banner', async () => {
+      seedSingleGame()
+      withFourReadyPlayers()
+      let captured: unknown = null
+      let capturedPath = ''
+      server.use(
+        http.put(`${BASE}/games/:id`, async ({ request, params }) => {
+          captured = await request.json()
+          capturedPath = String(params.id)
+          return HttpResponse.json(
+            makeGame({
+              id: 42,
+              player_red_1: 'Lars',
+              player_red_2: 'Joan',
+              player_blue_1: 'Frank',
+              player_blue_2: 'Daniel',
+              match_winner: 'blue',
+              points_at_stake: 17,
+              winning_table: 1,
+            }),
+          )
+        }),
+      )
+
+      const user = userEvent.setup()
+      renderWithProviders(<GamesList />)
+
+      const card = (await screen.findByText('#42')).closest('article')!
+      await user.click(within(card).getByRole('button', { name: /^edit$/i }))
+
+      const dialog = await screen.findByRole('dialog')
+      await user.click(within(dialog).getByRole('radio', { name: /^blue/i }))
+      await user.click(within(dialog).getByRole('button', { name: /^save$/i }))
+
+      // Confirmation banner appears once the mutation lands.
+      expect(
+        await screen.findByText(/updated game #42/i),
+      ).toBeInTheDocument()
+
+      expect(capturedPath).toBe('42')
+      expect(captured).toMatchObject({
+        match_winner: 'blue',
+        player_red_1: 'Lars',
+        player_red_2: 'Joan',
+        player_blue_1: 'Frank',
+        player_blue_2: 'Daniel',
+      })
+    })
+
+    it('Delete opens a confirmation dialog and DELETEs on accept', async () => {
+      seedSingleGame()
+      withFourReadyPlayers()
+      let deleted = false
+      let deletedPath = ''
+      server.use(
+        http.delete(`${BASE}/games/:id`, ({ params }) => {
+          deleted = true
+          deletedPath = String(params.id)
+          return HttpResponse.text(`deleteGame: ${params.id}`)
+        }),
+      )
+      const user = userEvent.setup()
+      renderWithProviders(<GamesList />)
+
+      const card = (await screen.findByText('#42')).closest('article')!
+      await user.click(within(card).getByRole('button', { name: /^delete$/i }))
+
+      // Find the styled confirmation dialog by its accessible name (set
+      // via aria-labelledby on the Dialog primitive). The role+name
+      // pair is the assertion.
+      const dialog = await screen.findByRole('dialog', { name: /delete game/i })
+      await user.click(within(dialog).getByRole('button', { name: /^delete$/i }))
+
+      expect(
+        await screen.findByText(/deleted game #42/i),
+      ).toBeInTheDocument()
+      expect(deleted).toBe(true)
+      expect(deletedPath).toBe('42')
+    })
+
+    it('Cancel on the confirm dialog skips the DELETE', async () => {
+      seedSingleGame()
+      withFourReadyPlayers()
+      let deleted = false
+      server.use(
+        http.delete(`${BASE}/games/:id`, () => {
+          deleted = true
+          return HttpResponse.text('deleteGame: 42')
+        }),
+      )
+      const user = userEvent.setup()
+      renderWithProviders(<GamesList />)
+
+      const card = (await screen.findByText('#42')).closest('article')!
+      await user.click(within(card).getByRole('button', { name: /^delete$/i }))
+
+      const dialog = await screen.findByRole('dialog', { name: /delete game/i })
+      await user.click(within(dialog).getByRole('button', { name: /^cancel$/i }))
+
+      // No DELETE went out and the row is still rendered.
+      expect(deleted).toBe(false)
+      expect(screen.getByText('#42')).toBeInTheDocument()
+    })
+
+    it('surfaces a friendly message when DELETE returns 404 (already deleted)', async () => {
+      seedSingleGame()
+      withFourReadyPlayers()
+      server.use(
+        http.delete(`${BASE}/games/:id`, () =>
+          HttpResponse.text('not found', { status: 404 }),
+        ),
+      )
+      const user = userEvent.setup()
+      renderWithProviders(<GamesList />)
+
+      const card = (await screen.findByText('#42')).closest('article')!
+      await user.click(within(card).getByRole('button', { name: /^delete$/i }))
+      const dialog = await screen.findByRole('dialog', { name: /delete game/i })
+      await user.click(within(dialog).getByRole('button', { name: /^delete$/i }))
+
+      expect(
+        await screen.findByText(/already deleted or no longer exists/i),
+      ).toBeInTheDocument()
     })
   })
 })

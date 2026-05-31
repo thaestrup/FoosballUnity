@@ -35,7 +35,9 @@ exports[`route /players (PlayersList) snapshot > matches snapshot with default m
   <ul
     class="list"
   >
-    <li>
+    <li
+      class="cardWrapper"
+    >
       <button
         aria-pressed="false"
         class="card"
@@ -46,7 +48,7 @@ exports[`route /players (PlayersList) snapshot > matches snapshot with default m
           class="avatar"
           decoding="async"
           loading="lazy"
-          src="/img/daniel.jpg"
+          src="http://localhost:5050/players/Daniel/photo?v=0"
         />
         <span
           class="name"
@@ -54,8 +56,18 @@ exports[`route /players (PlayersList) snapshot > matches snapshot with default m
           Daniel
         </span>
       </button>
+      <button
+        aria-label="Edit Daniel"
+        class="editBtn"
+        title="Edit Daniel"
+        type="button"
+      >
+        ✎
+      </button>
     </li>
-    <li>
+    <li
+      class="cardWrapper"
+    >
       <button
         aria-pressed="false"
         class="card"
@@ -66,7 +78,7 @@ exports[`route /players (PlayersList) snapshot > matches snapshot with default m
           class="avatar"
           decoding="async"
           loading="lazy"
-          src="/img/frank.jpg"
+          src="http://localhost:5050/players/Frank/photo?v=0"
         />
         <span
           class="name"
@@ -74,8 +86,18 @@ exports[`route /players (PlayersList) snapshot > matches snapshot with default m
           Frank
         </span>
       </button>
+      <button
+        aria-label="Edit Frank"
+        class="editBtn"
+        title="Edit Frank"
+        type="button"
+      >
+        ✎
+      </button>
     </li>
-    <li>
+    <li
+      class="cardWrapper"
+    >
       <button
         aria-pressed="true"
         class="card selected"
@@ -86,7 +108,7 @@ exports[`route /players (PlayersList) snapshot > matches snapshot with default m
           class="avatar"
           decoding="async"
           loading="lazy"
-          src="/img/joan.jpg"
+          src="http://localhost:5050/players/Joan/photo?v=0"
         />
         <span
           class="name"
@@ -100,8 +122,18 @@ exports[`route /players (PlayersList) snapshot > matches snapshot with default m
           ✓
         </span>
       </button>
+      <button
+        aria-label="Edit Joan"
+        class="editBtn"
+        title="Edit Joan"
+        type="button"
+      >
+        ✎
+      </button>
     </li>
-    <li>
+    <li
+      class="cardWrapper"
+    >
       <button
         aria-pressed="true"
         class="card selected"
@@ -112,7 +144,7 @@ exports[`route /players (PlayersList) snapshot > matches snapshot with default m
           class="avatar"
           decoding="async"
           loading="lazy"
-          src="/img/lars.jpg"
+          src="http://localhost:5050/players/Lars/photo?v=0"
         />
         <span
           class="name"
@@ -126,6 +158,14 @@ exports[`route /players (PlayersList) snapshot > matches snapshot with default m
           ✓
         </span>
       </button>
+      <button
+        aria-label="Edit Lars"
+        class="editBtn"
+        title="Edit Lars"
+        type="button"
+      >
+        ✎
+      </button>
     </li>
   </ul>
   <button
@@ -137,6 +177,7 @@ exports[`route /players (PlayersList) snapshot > matches snapshot with default m
     +
   </button>
   <dialog
+    aria-labelledby="_r_0_"
     class="dialog"
   >
     <div
@@ -147,6 +188,7 @@ exports[`route /players (PlayersList) snapshot > matches snapshot with default m
       >
         <h2
           class="title"
+          id="_r_0_"
         >
           Add player
         </h2>
@@ -186,6 +228,35 @@ exports[`route /players (PlayersList) snapshot > matches snapshot with default m
           </button>
         </form>
       </div>
+    </div>
+  </dialog>
+  <dialog
+    aria-labelledby="_r_1_"
+    class="dialog"
+  >
+    <div
+      class="content"
+    >
+      <header
+        class="header"
+      >
+        <h2
+          class="title"
+          id="_r_1_"
+        >
+          Edit player
+        </h2>
+        <button
+          aria-label="Close"
+          class="close"
+          type="button"
+        >
+          ×
+        </button>
+      </header>
+      <div
+        class="body"
+      />
     </div>
   </dialog>
 </div>

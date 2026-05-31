@@ -54,7 +54,7 @@ exports[`route /games (GamesList) snapshot > matches snapshot with prefill=null 
   >
     <li>
       <article
-        class="card"
+        class="card "
       >
         <header
           class="cardHeader"
@@ -76,6 +76,22 @@ exports[`route /games (GamesList) snapshot > matches snapshot with prefill=null 
             25
              pts
           </span>
+          <div
+            class="rowActions"
+          >
+            <button
+              class="rowButton"
+              type="button"
+            >
+              Edit
+            </button>
+            <button
+              class="rowButton danger"
+              type="button"
+            >
+              Delete
+            </button>
+          </div>
         </header>
         <div
           class="match"
@@ -88,14 +104,14 @@ exports[`route /games (GamesList) snapshot > matches snapshot with prefill=null 
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/lars.jpg"
+              src="http://localhost:5050/players/Lars/photo?v=0"
             />
             <img
               alt=""
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/joan.jpg"
+              src="http://localhost:5050/players/Joan/photo?v=0"
             />
             <span
               class="teamLabel"
@@ -122,14 +138,14 @@ exports[`route /games (GamesList) snapshot > matches snapshot with prefill=null 
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/frank.jpg"
+              src="http://localhost:5050/players/Frank/photo?v=0"
             />
             <img
               alt=""
               class="avatar"
               decoding="async"
               loading="lazy"
-              src="/img/daniel.jpg"
+              src="http://localhost:5050/players/Daniel/photo?v=0"
             />
             <span
               class="teamLabel"
@@ -155,6 +171,7 @@ exports[`route /games (GamesList) snapshot > matches snapshot with prefill=null 
     +
   </button>
   <dialog
+    aria-labelledby="_r_0_"
     class="dialog"
   >
     <div
@@ -165,6 +182,7 @@ exports[`route /games (GamesList) snapshot > matches snapshot with prefill=null 
       >
         <h2
           class="title"
+          id="_r_0_"
         >
           Report game
         </h2>
@@ -410,6 +428,64 @@ exports[`route /games (GamesList) snapshot > matches snapshot with prefill=null 
           </div>
         </form>
       </div>
+    </div>
+  </dialog>
+  <dialog
+    aria-labelledby="_r_1_"
+    class="dialog"
+  >
+    <div
+      class="content"
+    >
+      <header
+        class="header"
+      >
+        <h2
+          class="title"
+          id="_r_1_"
+        >
+          Edit game
+        </h2>
+        <button
+          aria-label="Close"
+          class="close"
+          type="button"
+        >
+          ×
+        </button>
+      </header>
+      <div
+        class="body"
+      />
+    </div>
+  </dialog>
+  <dialog
+    aria-labelledby="_r_2_"
+    class="dialog"
+  >
+    <div
+      class="content"
+    >
+      <header
+        class="header"
+      >
+        <h2
+          class="title"
+          id="_r_2_"
+        >
+          Delete game
+        </h2>
+        <button
+          aria-label="Close"
+          class="close"
+          type="button"
+        >
+          ×
+        </button>
+      </header>
+      <div
+        class="body"
+      />
     </div>
   </dialog>
 </div>

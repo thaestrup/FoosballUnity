@@ -53,7 +53,12 @@ describe('SelectedFacepile — some selected', () => {
     await waitFor(() => {
       const imgs = link.querySelectorAll('img')
       expect(imgs.length).toBe(1)
-      expect(imgs[0]).toHaveAttribute('src', '/img/lars.jpg')
+      // Avatar now points at the backend photo endpoint; the response is
+      // 404 by default (no photo) which is fine — we're asserting the URL
+      // shape only, not the render fallback.
+      expect(imgs[0].getAttribute('src')).toMatch(
+        /\/players\/Lars\/photo\?v=\d+$/,
+      )
     })
     expect(screen.getByText('1 ready')).toBeInTheDocument()
   })

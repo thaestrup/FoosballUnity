@@ -132,8 +132,8 @@ describe.skipIf(!shouldRunContract)('contract: timer', () => {
 // Consumer-side mirror of TableSoccerREST/src/test/java/com/foosball/
 // contract/TimerSocketContractTest.java. Self-skips when contract tests
 // are disabled (VITE_CONTRACT_TESTS != 1) or the configured backend
-// doesn't expose /ws/timer (legacy Ratpack at :5050 — the catch in the
-// test below downgrades that to a skip).
+// doesn't expose /ws/timer (Ratpack at :5050 doesn't — the catch in
+// the test below downgrades that to a skip).
 describe.skipIf(!shouldRunContract)('contract: timer WebSocket', () => {
   // No useLiveBackend() — when VITE_CONTRACT_TESTS=1 the global test-setup
   // leaves MSW uninstalled, so the WS upgrade reaches the real backend
@@ -149,9 +149,9 @@ describe.skipIf(!shouldRunContract)('contract: timer WebSocket', () => {
     const queue = queueMessages(socket)
 
     try {
-      // The legacy Ratpack backend on :5050 doesn't speak WS at all.
-      // Surface that as a skip rather than a hard failure so the same
-      // suite stays green on both backends.
+      // The Ratpack backend on :5050 doesn't speak WS. Surface that as
+      // a skip rather than a hard failure so the same suite stays green
+      // on both backends.
       try {
         await awaitOpen(socket, 2_000)
       } catch (err) {
