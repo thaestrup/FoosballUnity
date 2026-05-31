@@ -1,0 +1,48 @@
+name: football
+
+services:
+  mariadb:
+    image: docker.io/library/mariadb:10.11
+    container_name: foosball-mariadb
+    network_mode: host
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MARIADB_DATABASE: ${DB_NAME:-nykreditfoosballunity}
+      MARIADB_USER: ${DB_USER:-football}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-football}
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+
+  backend:
+    image: ghcr.io/thaestrup/tablesoccerrest:${TAG:-latest}
+    container_name: foosball-backend
+    network_mode: host
+    environment:
+      DB_URL: jdbc:mariadb://localhost:3306/${DB_NAME:-nykreditfoosballunity}?useSsl=false
+      DB_USER: ${DB_USER:-football}
+      DB_PASSWORD: ${DB_PASSWORD:-football}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8080}
+      QUARKUS_HTTP_PORT: "5051"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    image: ghcr.io/thaestrup/foosballunity:${TAG:-latest}
+    container_name: foosball-frontend
+    network_mode: host
+    environment:
+      NGINX_PORT: ${FRONTEND_PORT:-8080}
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mariadb-data:

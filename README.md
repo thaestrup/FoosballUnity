@@ -39,6 +39,37 @@ podman compose up -d                        # dev: Vite on http://localhost:4200
 
 First boot pulls images and downloads Gradle + npm deps; expect a couple of minutes. Subsequent starts are seconds because the gradle cache and `node_modules` are persisted.
 
+Run from registry
+-----------------
+
+For a pure-image run with no source checkout of either repo, use `docker-compose.registry.yml`. It pulls backend and frontend from GHCR (`ghcr.io/thaestrup/tablesoccerrest` and `ghcr.io/thaestrup/foosballunity`) and brings up MariaDB alongside.
+
+```
+podman compose -f docker-compose.registry.yml up -d
+# frontend on http://localhost:${FRONTEND_PORT:-8080}, backend on :5051
+```
+
+Pin a specific version with `TAG`, e.g. `TAG=v1.0.0 podman compose -f docker-compose.registry.yml up -d` (defaults to `latest`).
+
+While the GHCR packages are private you'll need to authenticate first:
+
+```
+podman login ghcr.io        # username = your GitHub handle, password = a PAT with read:packages
+```
+
+Once the packages are flipped to public, the `login` step is no longer required.
+
+### Release flow
+
+Images are built and pushed by `.github/workflows/docker-publish.yml` on any `v*` tag. To cut a release:
+
+```
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+The workflow publishes `ghcr.io/thaestrup/foosballunity:1.0.0` (plus `1.0`, `1`, and `latest`). The backend repo (`TableSoccerREST`) has a matching workflow — tag both repos together to keep versions aligned.
+
 Production-style run
 --------------------
 
